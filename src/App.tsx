@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import Header from "./components/Header/Header";
 
 
 function App() {  
@@ -6,9 +7,7 @@ function App() {
   return (
       <div className="body">
         <div className="container">
-          <div>
-
-          </div>
+          <Header />
           <Outlet />
           <div>
 
