@@ -2,3 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+.body {
+    @apply 
+        font-sans
+        m-0
+        p-0
+        h-80
+        box-border
+        bg-[url('/src/assets/image1.svg')]
+        bg-no-repeat
+        bg-[100%_0%]
+}
+.container {
+    @apply
+        w-[93%]
+        content-center
+        m-0
+        m-auto
+        grid
+        grid-cols-12
+        gap-2
+        border
+        border-black
+}
