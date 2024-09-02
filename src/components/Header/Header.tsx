@@ -1,11 +1,10 @@
+import CustomNavLinks from "../Link/CustomNavLink"
 
 
 // TODO For small displays, rearrange the list with the links.
 
+
 const Header = () => {
-
-
-
     return (
         <div className="m-0 col-span-12 flex justify-between items-center border border-red-500">
             <div className="flex items-center">
@@ -16,14 +15,14 @@ const Header = () => {
                 </div>
                 <div >
                     <ul className="w-auto flex flex-col sm:flex-row space-x-0 sm:space-x-4">
-                        <li>
-                            <p>Home</p>
+                        <li> 
+                            <CustomNavLinks to="/" text="Home" />
                         </li>
                         <li>
                             <p>About</p>
                         </li>
                         <li>
-                            <p>Movies</p>
+                            <CustomNavLinks to="/movie" text="Movie" />
                         </li>
                         <li>
                             <p>Stars</p>
