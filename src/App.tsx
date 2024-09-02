@@ -1,5 +1,8 @@
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+
+// TODO Background; it must be responsive. Currently, it is not
 
 
 function App() {  
@@ -9,11 +12,8 @@ function App() {
         <div className="container">
           <Header />
           <Outlet />
-          <div>
-
-          </div>
-          </div>
-        
+          <Footer />
+        </div>        
       </div>
     
   )

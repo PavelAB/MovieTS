@@ -4,10 +4,10 @@
 
 .body {
     @apply 
-        font-sans
+        font-normal
         m-0
         p-0
-        h-80
+        h-screen
         box-border
         bg-[url('/src/assets/image1.svg')]
         bg-no-repeat
@@ -20,8 +20,11 @@
         m-0
         m-auto
         grid
-        grid-cols-12
         gap-2
         border
-        border-black
+        border-black;
+        grid-template-columns: repeat(12, minmax(0, 1fr)); /* 12 colonnes */
+        grid-template-rows: auto 1fr auto; /* 3 lignes : Header, Outlet, Footer */
+        height: 100%;
+        
 }
