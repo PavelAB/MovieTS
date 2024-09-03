@@ -1,4 +1,5 @@
 import { Movie } from "../../types/typeMovie"
+import { MovieSchema } from "../../utils/zodValidators"
 
 const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL
 
@@ -26,9 +27,10 @@ export const fetchMovieByID = async (movieID: string): Promise<Movie> => {
     if(!response.ok){
         throw new Error(`Failed to fetch moive with id = ${movieID}`)
     }
+    const data = await response.json()
 
-    const movie: Movie = await response.json()
+    const result: Movie = MovieSchema.parse(data)
 
-    return movie
+    return result
 }
 

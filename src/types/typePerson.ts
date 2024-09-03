@@ -9,5 +9,5 @@ export interface Person {
     Awards_Personnes?: any;         // TODO Type Awards_Personnes[]
     ActedMovies?: any;              // TODO change this
     WrittenMovies?: any;            // TODO change this
-    isDerector: any;                // TODO change this
+    isDerector?: any;                // TODO change this
 }
