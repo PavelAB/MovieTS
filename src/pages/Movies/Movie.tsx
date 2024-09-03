@@ -1,16 +1,18 @@
 import React from "react"
+import { useMovieByID } from "../../hooks/useMovie"
 
 
 
 const Movie: React.FC = () => {
 
-    // const { data: dataMovie, isLoading, isError, error} = useMovieByID("15")
+    const { data: dataMovie, isError, error} = useMovieByID("15")
 
 
-    // if(isError)
-    //     console.log("Error: "+ error.message)
 
-    // console.log(dataMovie)
+    if(isError)
+        console.log("Error: "+ error.message)
+
+    console.log(dataMovie)
 
     return (
         <>
