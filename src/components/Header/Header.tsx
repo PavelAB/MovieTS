@@ -1,10 +1,11 @@
+import React from "react"
 import CustomNavLinks from "../Link/CustomNavLink"
 
 
 // TODO For small displays, rearrange the list with the links.
 
 
-const Header = () => {
+const Header: React.FC = () => {
     return (
         <div className="m-0 col-span-12 flex justify-between items-center border border-red-500">
             <div className="flex items-center">

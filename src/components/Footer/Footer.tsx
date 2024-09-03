@@ -1,4 +1,6 @@
-const Footer = () => {
+import React from "react"
+
+const Footer: React.FC = () => {
     return (
         <footer className="m-0 col-span-12 p-5 flex justify-between items-center border border-blue-700" >
                 <p>
