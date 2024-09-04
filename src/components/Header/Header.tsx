@@ -47,7 +47,9 @@ const Header: React.FC = () => {
                 {
                     userOk ?
                         <div className="flex justify-center items-center mr-5">
-                            <p className="mr-5">Sign in</p>
+                            <div className="mr-5">
+                                <CustomNavLinks to="/login" text="Sign in" />
+                            </div>
                             <p>Sign up</p>
                         </div>
                         :
