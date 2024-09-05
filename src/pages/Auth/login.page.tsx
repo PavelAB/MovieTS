@@ -1,22 +1,36 @@
 import React, { useState } from "react";
 import CustomInput from "../../components/Inputs/CustomInput";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { User } from "../../types/typeUser";
 
 const LoginPage: React.FC = () => {
 
     const [login, setLogin] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const navigate = useNavigate() // TODO Check for a better implementation
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const test: string = (event.currentTarget.elements[0] as HTMLInputElement).value
 
+        const formData: Partial<User> = {
+            login: (event.currentTarget.elements[0] as HTMLInputElement).value,
+            password: (event.currentTarget.elements[1] as HTMLInputElement).value
+        }
 
+        if(formData.login?.trim() === "")
+            throw new Error("Error: No login, please try again.")
+
+        if(formData.password?.trim() === "")
+            throw new Error("Error: No password, please try again.")
+        
         setLogin('')
-        console.log("return --> ", test)
+        setPassword('')
+
+        console.log("return --> ", formData)
+        navigate("/")
     }
 
-    
+
     return (
         <div className="col-span-12 grid place-items-center">
             <div className="mx-auto max-w-md bg-white px-10 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-xl">

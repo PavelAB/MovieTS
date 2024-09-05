@@ -5,5 +5,6 @@ export interface User {
     birth_date: string | Date;
     login: string;
     email: string;
+    password?: string;
     // TODO add Ratings and Comments but not sure
 }
