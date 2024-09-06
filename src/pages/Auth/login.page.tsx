@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import CustomInput from "../../components/Inputs/CustomInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { User } from "../../types/typeUser";
+import { useLogin } from "../../hooks/useAuth";
 
 const LoginPage: React.FC = () => {
 
     const [login, setLogin] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const {mutate} = useLogin()
     const navigate = useNavigate() // TODO Check for a better implementation
+
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -22,12 +25,26 @@ const LoginPage: React.FC = () => {
 
         if(formData.password?.trim() === "")
             throw new Error("Error: No password, please try again.")
-        
-        setLogin('')
-        setPassword('')
 
-        console.log("return --> ", formData)
-        navigate("/")
+        mutate( 
+            formData,
+            {
+                onSuccess: (data: User) => {
+                    console.log('Login successful', data.ID_User)
+                    setLogin('')
+                    setPassword('')
+
+                    localStorage.setItem("token", data.token as string)
+                    localStorage.setItem("ID_User", data.ID_User)
+                    localStorage.setItem("role", data.role as string)
+
+                    navigate("/")
+                },
+                onError: (err: Error) => {
+                    console.log('Error during login:', err)
+                }
+            })
+        
     }
 
 
