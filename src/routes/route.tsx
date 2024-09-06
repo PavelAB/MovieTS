@@ -1,8 +1,9 @@
 import { RouteObject } from "react-router-dom";
 import App from "../App";
-import HomePage from "../pages/Home/home.page";
-import Movie from "../pages/Movies/Movie";
-import LoginPage from "../pages/Auth/login.page";
+import HomePage from "../pages/Home/homePage";
+import Movie from "../pages/Movies/MoviePage";
+import LoginPage from "../pages/Auth/loginPage";
+import SignUpPage from "../pages/Auth/signUpPage";
 
 export const route: RouteObject[] = [{
     path: '',
@@ -19,6 +20,10 @@ export const route: RouteObject[] = [{
         {
             path: 'login',
             element: <LoginPage />
+        },
+        {
+            path: 'signUp',
+            element: <SignUpPage />
         }
     ]
 }]

@@ -3,7 +3,7 @@ import { useMovieByID } from "../../hooks/useMovie"
 
 
 
-const Movie: React.FC = () => {
+const MoviePage: React.FC = () => {
 
     const { data: dataMovie, isError, error} = useMovieByID("15")
 
@@ -20,4 +20,4 @@ const Movie: React.FC = () => {
         </>
     )
 }
-export default Movie
+export default MoviePage

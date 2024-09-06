@@ -50,7 +50,9 @@ const Header: React.FC = () => {
                             <div className="mr-5">
                                 <CustomNavLinks to="/login" text="Sign in" />
                             </div>
-                            <p>Sign up</p>
+                            <div >
+                                <CustomNavLinks to="/signUp" text="Sign up" />
+                            </div>
                         </div>
                         :
                         <div className="flex justify-center items-center mr-5">
