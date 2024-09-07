@@ -6,17 +6,27 @@ interface CustomInputProp {
     updateInputValue: (event: React.ChangeEvent<HTMLInputElement>) => void
     inputPlaceHolder?: string,
     labelText: string,
-    inputType?: React.HTMLInputTypeAttribute
+    inputType?: React.HTMLInputTypeAttribute,
+    name?: string
 
 }
 
-const CustomInput: React.FC<CustomInputProp> = ({inputValue, updateInputValue, inputPlaceHolder, labelText, inputType }) => {
+const CustomInput: React.FC<CustomInputProp> = ({
+    inputValue, 
+    updateInputValue, 
+    inputPlaceHolder, 
+    labelText, 
+    inputType,
+    name }) => {
+
+
     return (
         <div className="mt-5 relative">
             <input
                 type={inputType ? inputType : "type"}
                 value={inputValue}
                 onChange={updateInputValue}
+                name={name? name : ""}
                 placeholder={inputPlaceHolder ? inputPlaceHolder : ''}
                 className="peer mt-1 w-full border-b-2 border-gray-300 px-0 py-1 placeholder:text-transparent focus:border-gray-500 focus:outline-none" />
             <label
