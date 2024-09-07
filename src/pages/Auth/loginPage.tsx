@@ -19,7 +19,8 @@ const LoginPage: React.FC = () => {
             login: (event.currentTarget.elements[0] as HTMLInputElement).value,
             password: (event.currentTarget.elements[1] as HTMLInputElement).value
         }
-
+        
+        // TODO Refactor the function: the validators should be placed in a separate function (SRP).
         if(formData.login?.trim() === "")
             throw new Error("Error: No login, please try again.")
 
@@ -53,7 +54,7 @@ const LoginPage: React.FC = () => {
             <div className="mx-auto max-w-md bg-white px-10 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-xl">
                 <div className="text-center">
                     <h1 className="text-3xl font-semibold text-gray-700">
-                        Sign in :
+                        Sign In :
                     </h1>
                     <p className="mt-2 text-gray-500">
                         Sign in below to access your account
@@ -74,14 +75,14 @@ const LoginPage: React.FC = () => {
                             <button
                                 type="submit"
                                 className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                                Submit
+                                Sign In
                             </button>
                         </div>
                         <div className="mt-1">
                             <p className="text-center">
                                 Don't have an account yet?
                                 <NavLink
-                                    to={"/"} 
+                                    to={"/signUp"} 
                                     className={"font-semibold ml-2 text-gray-600 hover:underline focus:text-gray-800 focus:outline-none"}>
                                         Sign up        
                                 </NavLink>
