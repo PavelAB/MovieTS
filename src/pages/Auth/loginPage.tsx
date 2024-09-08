@@ -3,6 +3,8 @@ import CustomInput from "../../components/Inputs/CustomInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { User } from "../../types/typeUser";
 import { useLogin } from "../../hooks/useAuth";
+import { ErrorValidator } from "../../types/typeError";
+import { validateLoginFormData } from "../../Validators/userFormValidators";
 
 const LoginPage: React.FC = () => {
 
@@ -10,6 +12,20 @@ const LoginPage: React.FC = () => {
     const [password, setPassword] = useState<string>('')
     const {mutate} = useLogin()
     const navigate = useNavigate() // TODO Check for a better implementation
+
+
+    // resetFormFields clears the form fields
+    const resetFormFields = () => {
+        setLogin('')
+        setPassword('')
+    }
+
+    // saveUserDataToLocalStorage saves the logged-in user's data to local storage
+    const saveUserDataToLocalStorage = (data: User) => {        
+        localStorage.setItem("token", data.token as string)
+        localStorage.setItem("ID_User", data.ID_User)
+        localStorage.setItem("role", data.role as string)
+    }
 
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -20,24 +36,19 @@ const LoginPage: React.FC = () => {
             password: (event.currentTarget.elements[1] as HTMLInputElement).value
         }
         
-        // TODO Refactor the function: the validators should be placed in a separate function (SRP).
-        if(formData.login?.trim() === "")
-            throw new Error("Error: No login, please try again.")
-
-        if(formData.password?.trim() === "")
-            throw new Error("Error: No password, please try again.")
+        const validation: ErrorValidator = validateLoginFormData(formData)
+        
+        if(!validation.state)
+            throw new Error("Validation not passed: " + validation.msg)
 
         mutate( 
             formData,
             {
                 onSuccess: (data: User) => {
-                    console.log('Login successful', data.ID_User)
-                    setLogin('')
-                    setPassword('')
-
-                    localStorage.setItem("token", data.token as string)
-                    localStorage.setItem("ID_User", data.ID_User)
-                    localStorage.setItem("role", data.role as string)
+                    console.log('Login successful')
+                    
+                    resetFormFields()
+                    saveUserDataToLocalStorage(data)                   
 
                     navigate("/")
                 },
