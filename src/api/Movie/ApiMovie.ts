@@ -1,4 +1,4 @@
-import { Movie } from "../../types/typeMovie"
+import { Movie } from "../../types/Movie"
 import { MovieSchema } from "../../utils/zodValidators"
 
 const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL

@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult} from "@tanstack/react-query"
 import { login } from "../api/User/ApiUser"
-import { User } from "../types/typeUser"
+import { User } from "../types/User"
 
 
 /**

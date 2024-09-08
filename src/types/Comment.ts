@@ -1,4 +1,4 @@
-import { Movie } from "./typeMovie";
+import { Movie } from "./Movie";
 
 export interface Comment {
     

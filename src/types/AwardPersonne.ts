@@ -1,4 +1,4 @@
-import { Person } from "./typePerson";
+import { Person } from "./Person";
 
 export interface AwardPersonne {
     

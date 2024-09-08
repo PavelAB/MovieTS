@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import CustomInput from "../../components/Inputs/CustomInput"
 import { NavLink } from "react-router-dom"
-import { User } from "../../types/typeUser"
+import { User } from "../../types/User"
 
 const SignUpPage: React.FC = () => {
 

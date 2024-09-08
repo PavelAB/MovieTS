@@ -1,5 +1,5 @@
-import { ErrorValidator } from "../types/typeError";
-import { User } from "../types/typeUser";
+import { ErrorValidator } from "../types/Error";
+import { User } from "../types/User";
 
 /**
  * Function to validate form data.

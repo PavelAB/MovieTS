@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import CustomInput from "../../components/Inputs/CustomInput";
 import { NavLink, useNavigate } from "react-router-dom";
-import { User } from "../../types/typeUser";
+import { User } from "../../types/User";
 import { useLogin } from "../../hooks/useAuth";
-import { ErrorValidator } from "../../types/typeError";
+import { ErrorValidator } from "../../types/Error";
 import { validateLoginFormData } from "../../Validators/userFormValidators";
 
 const LoginPage: React.FC = () => {

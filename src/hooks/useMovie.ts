@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { fetchMovieByID } from "../api/Movie/ApiMovie"
-import { Movie } from "../types/typeMovie"
+import { Movie } from "../types/Movie"
 
 
 /**

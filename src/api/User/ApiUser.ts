@@ -1,5 +1,5 @@
-import { ErrorResponse } from "../../types/typeError";
-import { User } from "../../types/typeUser";
+import { ErrorResponse } from "../../types/Error";
+import { User } from "../../types/User";
 
 const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL
 
