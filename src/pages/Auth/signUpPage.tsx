@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import CustomInput from "../../components/Inputs/CustomInput"
 import { NavLink } from "react-router-dom"
 import { User } from "../../types/User"
+import { ErrorValidator } from "../../types/Error"
+import { validateSignUpFormData } from "../../Validators/userFormValidators"
 
 const SignUpPage: React.FC = () => {
 
@@ -16,6 +18,24 @@ const SignUpPage: React.FC = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        
+        
+        const formData: Partial<User> = {
+            first_name: (event.currentTarget.elements.namedItem('first_name') as HTMLInputElement).value,
+            last_name: (event.currentTarget.elements.namedItem('last_name') as HTMLInputElement).value,
+            birth_date: (event.currentTarget.elements.namedItem('birth_date') as HTMLInputElement).value,
+            login: (event.currentTarget.elements.namedItem('login') as HTMLInputElement).value,
+            email: (event.currentTarget.elements.namedItem('email') as HTMLInputElement).value,
+            password: (event.currentTarget.elements.namedItem('password') as HTMLInputElement).value
+        }
+
+        const validation: ErrorValidator = validateSignUpFormData(formData)
+
+        if(!validation.state)
+            throw new Error("Validation not passed: " + validation.msg)
+
+
+        console.log("formData", formData, validation.msg)
     }
     
     // TODO With each symbol entered, the page reloads. This is quite disturbing. I need to find a way to change this.
