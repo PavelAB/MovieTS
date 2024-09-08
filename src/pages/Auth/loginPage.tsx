@@ -32,8 +32,8 @@ const LoginPage: React.FC = () => {
         event.preventDefault()
 
         const formData: Partial<User> = {
-            login: (event.currentTarget.elements[0] as HTMLInputElement).value,
-            password: (event.currentTarget.elements[1] as HTMLInputElement).value
+            login: (event.currentTarget.elements.namedItem("login") as HTMLInputElement).value,
+            password: (event.currentTarget.elements.namedItem("password") as HTMLInputElement).value
         }
         
         const validation: ErrorValidator = validateLoginFormData(formData)
@@ -75,10 +75,12 @@ const LoginPage: React.FC = () => {
                     <form onSubmit={handleSubmit}>
                         <CustomInput
                             inputValue={login}
+                            name="login"
                             labelText={"Login"}
                             updateInputValue={(e) => setLogin(e.target.value)} />
                         <CustomInput
                             inputValue={password}
+                            name="password"
                             inputType="password"
                             labelText="Password"
                             updateInputValue={(e) => setPassword(e.target.value)} />
