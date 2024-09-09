@@ -16,13 +16,13 @@ const LoginPage: React.FC = () => {
 
 
     // resetFormFields clears the form fields
-    const resetFormFields = () => {
+    const resetFormFields = (): void => {
         setLogin('')
         setPassword('')
     }
 
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault()
 
         const formData: Partial<User> = {
@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
         mutate( 
             formData,
             {
-                onSuccess: (data: User) => {
+                onSuccess: (data: User): void => {
                     console.log('Login successful')
                     
                     resetFormFields()
@@ -46,7 +46,7 @@ const LoginPage: React.FC = () => {
 
                     navigate("/")
                 },
-                onError: (err: Error) => {
+                onError: (err: Error): void => {
                     console.log('Error during login:', err)
                 }
             })
