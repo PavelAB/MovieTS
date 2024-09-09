@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import React from "react";
+import { UserProvider } from "./context/UserContext";
 
 // TODO Background; it must be responsive. Currently, it is not
 
@@ -9,6 +10,7 @@ import React from "react";
 function App(): React.ReactElement {  
 
   return (
+    <UserProvider>
       <div className="body">
         <div className="container">
           <Header />
@@ -16,6 +18,7 @@ function App(): React.ReactElement {
           <Footer />
         </div>        
       </div>
+    </UserProvider>
     
   )
 }

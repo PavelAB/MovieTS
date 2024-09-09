@@ -5,7 +5,7 @@ import { User } from "../../types/User";
 import { useLogin } from "../../hooks/useAuth";
 import { ErrorValidator } from "../../types/Error";
 import { validateLoginFormData } from "../../Validators/userFormValidators";
-import { saveUserDataToLocalStorage } from "../../utils/localStorageActions";
+import { useUser } from "../../context/UserContext";
 
 const LoginPage: React.FC = () => {
 
@@ -13,6 +13,7 @@ const LoginPage: React.FC = () => {
     const [password, setPassword] = useState<string>('')
     const {mutate} = useLogin()
     const navigate = useNavigate() // TODO Check for a better implementation
+    const { updateUser } = useUser()
 
 
     // resetFormFields clears the form fields
@@ -42,7 +43,7 @@ const LoginPage: React.FC = () => {
                     console.log('Login successful')
                     
                     resetFormFields()
-                    saveUserDataToLocalStorage(data)                   
+                    updateUser(data)                  
 
                     navigate("/")
                 },

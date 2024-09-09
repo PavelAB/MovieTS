@@ -5,7 +5,7 @@ import { User } from "../../types/User"
 import { ErrorValidator } from "../../types/Error"
 import { validateSignUpFormData } from "../../Validators/userFormValidators"
 import { useSignUp } from "../../hooks/useAuth"
-import { saveUserDataToLocalStorage } from "../../utils/localStorageActions"
+import { useUser } from "../../context/UserContext"
 
 const SignUpPage: React.FC = () => {
 
@@ -19,6 +19,7 @@ const SignUpPage: React.FC = () => {
     })
     const { mutate } = useSignUp()
     const navigate = useNavigate()
+    const { updateUser } = useUser()
 
 
     // resetFormFields clears the form fields
@@ -61,7 +62,7 @@ const SignUpPage: React.FC = () => {
                     console.log('Sign up successful')
 
                     resetFormFields()
-                    saveUserDataToLocalStorage(data)
+                    updateUser(data)
 
                     navigate("/")
                 },

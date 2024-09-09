@@ -1,5 +1,6 @@
 import React from "react"
 import CustomNavLinks from "../Link/CustomNavLink"
+import { useUser } from "../../context/UserContext"
 
 
 // TODO For small displays, rearrange the list with the links.
@@ -7,8 +8,7 @@ import CustomNavLinks from "../Link/CustomNavLink"
 
 const Header: React.FC = () => {
 
-    const userOk: boolean = true  // TODO delete temp variable
-
+    const { user, logOut } = useUser()
 
 
     return (
@@ -45,7 +45,7 @@ const Header: React.FC = () => {
                     SEARCH BAR
                 </div>
                 {
-                    userOk ?
+                    !user ?
                         <div className="flex justify-center items-center mr-5">
                             <div className="mr-5">
                                 <CustomNavLinks to="/login" text="Sign in" />
@@ -56,7 +56,7 @@ const Header: React.FC = () => {
                         </div>
                         :
                         <div className="flex justify-center items-center mr-5">
-                            <p>Sign out</p>
+                            <p onClick={logOut}>Sign out</p>
                         </div> 
                 }
             </div>
