@@ -5,6 +5,7 @@ import { User } from "../../types/User";
 import { useLogin } from "../../hooks/useAuth";
 import { ErrorValidator } from "../../types/Error";
 import { validateLoginFormData } from "../../Validators/userFormValidators";
+import { saveUserDataToLocalStorage } from "../../utils/localStorageActions";
 
 const LoginPage: React.FC = () => {
 
@@ -18,13 +19,6 @@ const LoginPage: React.FC = () => {
     const resetFormFields = () => {
         setLogin('')
         setPassword('')
-    }
-
-    // saveUserDataToLocalStorage saves the logged-in user's data to local storage
-    const saveUserDataToLocalStorage = (data: User) => {        
-        localStorage.setItem("token", data.token as string)
-        localStorage.setItem("ID_User", data.ID_User)
-        localStorage.setItem("role", data.role as string)
     }
 
 
