@@ -1,9 +1,11 @@
 import React, { useState } from "react"
 import CustomInput from "../../components/Inputs/CustomInput"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { User } from "../../types/User"
 import { ErrorValidator } from "../../types/Error"
 import { validateSignUpFormData } from "../../Validators/userFormValidators"
+import { useSignUp } from "../../hooks/useAuth"
+import { saveUserDataToLocalStorage } from "../../utils/localStorageActions"
 
 const SignUpPage: React.FC = () => {
 
@@ -15,11 +17,28 @@ const SignUpPage: React.FC = () => {
         email: "",
         password: ""
     })
+    const { mutate } = useSignUp()
+    const navigate = useNavigate()
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+    // resetFormFields clears the form fields
+    const resetFormFields = (): void => {
+        setFormState({
+            first_name: "",
+            last_name: "",
+            birth_date: "",
+            login: "",
+            email: "",
+            password: ""
+        })
+    }
+
+
+
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault()
-        
-        
+                
         const formData: Partial<User> = {
             first_name: (event.currentTarget.elements.namedItem('first_name') as HTMLInputElement).value,
             last_name: (event.currentTarget.elements.namedItem('last_name') as HTMLInputElement).value,
@@ -35,11 +54,28 @@ const SignUpPage: React.FC = () => {
             throw new Error("Validation not passed: " + validation.msg)
 
 
-        console.log("formData", formData, validation.msg)
+        mutate(
+            formData,
+            {
+                onSuccess: (data: User):void => {
+                    console.log('Sign up successful')
+
+                    resetFormFields()
+                    saveUserDataToLocalStorage(data)
+
+                    navigate("/")
+                },
+                onError: (err: Error):void => {
+                    console.log('Error during sign up:', err)
+                }
+
+            }
+        )
+
     }
     
     // TODO With each symbol entered, the page reloads. This is quite disturbing. I need to find a way to change this.
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e.target
         setFormState({
             ...formState,
