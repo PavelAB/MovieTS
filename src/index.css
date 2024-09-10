@@ -7,7 +7,7 @@
         font-normal
         m-0
         p-0
-        h-screen
+        min-h-screen
         box-border
         bg-[url('/src/assets/image1.svg')]
         bg-no-repeat
@@ -22,9 +22,10 @@
         grid
         gap-2
         border
-        border-black;
+        border-black
+        min-h-screen;
         grid-template-columns: repeat(12, minmax(0, 1fr)); /* 12 colonnes */
         grid-template-rows: auto 1fr auto; /* 3 lignes : Header, Outlet, Footer */
-        height: 100%;
+        
         
 }
