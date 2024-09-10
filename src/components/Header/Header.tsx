@@ -25,7 +25,7 @@ const Header: React.FC = () => {
                             <CustomNavLinks to="/" text="Home" />
                         </li>
                         <li>
-                            <p>About</p>
+                            <CustomNavLinks to="/about" text="About" />
                         </li>
                         <li>
                             <CustomNavLinks to="/movie" text="Movie" />
