@@ -1,7 +1,32 @@
+import { ErrorResponse } from "../../types/Error"
 import { Movie } from "../../types/Movie"
 import { MovieSchema } from "../../utils/zodValidators"
 
 const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL
+
+/**
+ * Fetches a list of movies from th API.
+ * 
+ * @returns {Promise<Movie[]>} A promise that resolves to an array Movie objects.
+ * @throws {Error} If the fetch fails or return an error response.
+ */
+export const fetchMovies = async (): Promise<Movie[]> => {
+
+    const url: string = MOVIE_URL + "/movies"
+    const response = await fetch(url)
+
+    const result: Movie[] | ErrorResponse = await response.json()
+
+    if(!response.ok){
+        const errorResponse: ErrorResponse = result as ErrorResponse
+        throw new Error(`Failed to fetch movies. Error: ${errorResponse.msg}`)
+    }
+
+    const movies: Movie[] = result as Movie[]
+
+    return movies
+}
+
 
 /**
  * Fetches a movie by its ID.
