@@ -31,7 +31,7 @@ const Header: React.FC = () => {
                             <CustomNavLinks to="/movie" text="Movie" />
                         </li>
                         <li>
-                            <p>Stars</p>
+                            <CustomNavLinks to="/stars" text="Stars" />
                         </li>
                         <li>
                             <CustomNavLinks to="/awards" text="Awards" />

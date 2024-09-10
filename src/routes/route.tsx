@@ -6,6 +6,7 @@ import LoginPage from "../pages/Auth/loginPage";
 import SignUpPage from "../pages/Auth/signUpPage";
 import AboutPage from "../pages/About/AboutPage";
 import AwardsPage from "../pages/Awards/AwardsPage";
+import PersonnesPage from "../pages/Personnes/PersonnesPage";
 
 export const route: RouteObject[] = [{
     path: '',
@@ -22,6 +23,10 @@ export const route: RouteObject[] = [{
         {
             path: 'movie',
             element: <MoviePage />
+        },
+        {
+            path: 'stars',
+            element: <PersonnesPage />
         },
         {
             path: 'awards',
