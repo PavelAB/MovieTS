@@ -1,6 +1,22 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
-import { fetchMovieByID } from "../api/Movie/ApiMovie"
+import { fetchMovieByID, fetchMovies } from "../api/Movie/ApiMovie"
 import { Movie } from "../types/Movie"
+
+
+
+/**
+ * Custom React hook to fetch a list of movies.
+ *
+ * @returns {UseQueryResult<Movie[], Error>} An object containing the query status fetched data, and error information.
+ */
+export const useAllMovies = (): UseQueryResult<Movie[], Error> => {
+    return useQuery<Movie[], Error>({
+        queryKey: ['allMovies'],
+        queryFn: () => fetchMovies()
+    })
+}
+
+
 
 
 /**
