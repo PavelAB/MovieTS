@@ -1,6 +1,7 @@
 import { ErrorResponse } from "../../types/Error"
 import { Movie } from "../../types/Movie"
-import { MovieSchema } from "../../utils/zodValidators"
+import { SuccesResponse } from "../../types/SuccesResponse"
+import { MoviesArraySchema, MovieSchema } from "../../utils/zodValidators"
 
 const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL
 
@@ -15,14 +16,16 @@ export const fetchMovies = async (): Promise<Movie[]> => {
     const url: string = MOVIE_URL + "/movies"
     const response = await fetch(url)
 
-    const result: Movie[] | ErrorResponse = await response.json()
+    const result: SuccesResponse<Movie[]> | ErrorResponse = await response.json()
 
     if(!response.ok){
         const errorResponse: ErrorResponse = result as ErrorResponse
         throw new Error(`Failed to fetch movies. Error: ${errorResponse.msg}`)
     }
 
-    const movies: Movie[] = result as Movie[]
+    const succesResponse: SuccesResponse<Movie[]> = result as SuccesResponse<Movie[]>
+
+    const movies: Movie[] = MoviesArraySchema.parse(succesResponse.values) 
 
     return movies
 }
@@ -38,6 +41,8 @@ export const fetchMovies = async (): Promise<Movie[]> => {
 
 export const fetchMovieByID = async (movieID: string): Promise<Movie> => {
 
+    // TODO Needs to be refactored.
+
     const ID_Number: number = Number(movieID)
 
     if(!movieID)
@@ -49,13 +54,15 @@ export const fetchMovieByID = async (movieID: string): Promise<Movie> => {
     const url: string = MOVIE_URL+"/movies/"+movieID
     const response = await fetch(url)
 
+    const result: Movie | ErrorResponse = await response.json()
+
     if(!response.ok){
-        throw new Error(`Failed to fetch moive with id = ${movieID}`)
+        const errorResponse: ErrorResponse = result as ErrorResponse
+        throw new Error(`Failed to fetch movies. Error: ${errorResponse.msg}`)
     }
-    const data = await response.json()
 
-    const result: Movie = MovieSchema.parse(data)
+    const movie: Movie = MovieSchema.parse(result as Movie)
 
-    return result
+    return movie
 }
 

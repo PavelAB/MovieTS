@@ -28,3 +28,5 @@ export const MovieSchema = z.object({
     Director: z.any().optional(),          
     Genres:  z.any().optional(),  
 })
+
+export const MoviesArraySchema = z.array(MovieSchema) 
