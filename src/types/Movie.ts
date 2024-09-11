@@ -13,7 +13,7 @@ export interface Movie {
     Awards_Movies?: any;      // TODO Type Award_Movies[]
     Actors: Person[];            // TODO Type Actors[]
     Writers?: any;           // TODO Type Writers[]
-    Director?: any;          // TODO Type Director
+    Director?: Person;          // TODO Type Director
     Genres?: any;            // TODO Type Genres[]
 
 }

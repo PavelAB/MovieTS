@@ -25,7 +25,7 @@ export const MovieSchema = z.object({
     Awards_Movies:  z.any().optional(),       
     Actors: z.array(PersonSchema),           
     Writers:  z.any().optional(),          
-    Director: z.any().optional(),          
+    Director: z.any().optional(),      // TODO check replace any by Person     
     Genres:  z.any().optional(),  
 })
 
