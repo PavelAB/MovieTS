@@ -1,4 +1,6 @@
-export interface SuccesResponse<T>{
-    values: T,
-    count: number
+export interface SuccessResponse<T>{
+    data: T,
+    totalCount: number,
+    currentPage: number,
+    totalPages: number
 }

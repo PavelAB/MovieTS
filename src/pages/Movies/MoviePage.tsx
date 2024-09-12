@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useAllMovies } from "../../hooks/useMovie"
 import LoaderElement from "../../components/LoaderSpin/LoaderElement"
 import { Movie } from "../../types/Movie"
@@ -9,7 +9,10 @@ import MovieCard from "../../components/MovieCard/MovieCard"
 
 const MoviePage: React.FC = () => {
 
-    const {data: AllMovies, isLoading: isLoadingAllMovies} = useAllMovies()
+    const [page, setPage] = useState<number>(1)
+    const [limit] = useState<number>(10)
+
+    const {data: AllMovies, isLoading: isLoadingAllMovies} = useAllMovies(page, limit)
 
     if(isLoadingAllMovies && !AllMovies){
         return <LoaderElement />
@@ -33,6 +36,10 @@ const MoviePage: React.FC = () => {
                         
                     } )
                 }
+            </div>
+            <div className="flex gap-4 justify-center">
+                <button onClick={() => setPage((prevPage) => Math.max(prevPage - 1, 1))}>Precedent</button>
+                <button onClick={() => setPage((prevPage) => prevPage + 1)}>Suivant</button>
             </div>
         </div>
     )

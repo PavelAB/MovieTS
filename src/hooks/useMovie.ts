@@ -7,12 +7,14 @@ import { Movie } from "../types/Movie"
 /**
  * Custom React hook to fetch a list of movies.
  *
+ * @param {number} [page=1] - The page number for pagination (default is 1).
+ * @param {number} [limit=10] - The number of movies per page for pagination (default is 10).
  * @returns {UseQueryResult<Movie[], Error>} An object containing the query status fetched data, and error information.
  */
-export const useAllMovies = (): UseQueryResult<Movie[], Error> => {
+export const useAllMovies = (page: number = 1, limit: number = 10): UseQueryResult<Movie[], Error> => {
     return useQuery<Movie[], Error>({
-        queryKey: ['allMovies'],
-        queryFn: () => fetchMovies()
+        queryKey: ['allMovies', page, limit],
+        queryFn: () => fetchMovies(page, limit)
     })
 }
 
