@@ -57,7 +57,7 @@ const Header: React.FC = () => {
                         :
                         <div className="flex justify-center items-center mr-5">
                             <button
-                                className="bg-white hover:bg-gray-100 text-gray-800 px-1 border border-gray-400 rounded shadow" 
+                                className="px-3 h-8 min-w-[42px] text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" 
                                 onClick={logOut}>
                                     Sign out
                             </button>

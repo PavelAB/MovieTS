@@ -1,7 +1,7 @@
 import { ErrorResponse } from "../../types/Error"
 import { Movie } from "../../types/Movie"
 import { SuccessResponse } from "../../types/SuccesResponse"
-import { MoviesArraySchema, MovieSchema } from "../../utils/zodValidators"
+import { MovieSchema } from "../../utils/zodValidators"
 
 const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL
 
@@ -10,10 +10,10 @@ const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL
  * 
  * @param {number} page- The page number for pagination.
  * @param {number} limit - The number of movies per page for pagination.
- * @returns {Promise<Movie[]>} A promise that resolves to an array Movie objects.
+ * @returns {Promise<SuccessResponse<Movie[]>>} A promise that resolves to an Object SuccessResponse<T>.
  * @throws {Error} If the fetch fails or return an error response.
  */
-export const fetchMovies = async (page: number, limit: number): Promise<Movie[]> => {
+export const fetchMovies = async (page: number, limit: number): Promise<SuccessResponse<Movie[]>> => {
  
     const url: string = MOVIE_URL + `/movies?page=${page}&limit=${limit}`
     const response = await fetch(url)
@@ -27,9 +27,7 @@ export const fetchMovies = async (page: number, limit: number): Promise<Movie[]>
 
     const succesResponse: SuccessResponse<Movie[]> = result as SuccessResponse<Movie[]>
 
-    const movies: Movie[] = MoviesArraySchema.parse(succesResponse.data) 
-
-    return movies
+    return succesResponse
 }
 
 

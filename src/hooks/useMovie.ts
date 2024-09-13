@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { fetchMovieByID, fetchMovies } from "../api/Movie/ApiMovie"
 import { Movie } from "../types/Movie"
+import { SuccessResponse } from "../types/SuccesResponse"
 
 
 
@@ -9,12 +10,13 @@ import { Movie } from "../types/Movie"
  *
  * @param {number} [page=1] - The page number for pagination (default is 1).
  * @param {number} [limit=10] - The number of movies per page for pagination (default is 10).
- * @returns {UseQueryResult<Movie[], Error>} An object containing the query status fetched data, and error information.
+ * @returns {UseQueryResult<SuccessResponse<Movie[]>, Error>} An object containing the query status fetched Obejct contains data, and error information.
  */
-export const useAllMovies = (page: number = 1, limit: number = 10): UseQueryResult<Movie[], Error> => {
-    return useQuery<Movie[], Error>({
+export const useAllMovies = (page: number = 1, limit: number = 10): UseQueryResult<SuccessResponse<Movie[]>, Error> => {
+    return useQuery<SuccessResponse<Movie[]>, Error>({
         queryKey: ['allMovies', page, limit],
-        queryFn: () => fetchMovies(page, limit)
+        queryFn: () => fetchMovies(page, limit),
+        placeholderData: (previousData) => previousData,
     })
 }
 
