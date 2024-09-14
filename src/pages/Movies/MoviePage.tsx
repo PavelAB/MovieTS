@@ -1,19 +1,20 @@
 import React, { useState } from "react"
-import { useAllMovies } from "../../hooks/useMovie"
+import { useMoviesByTitle } from "../../hooks/useMovie"
 import LoaderElement from "../../components/LoaderSpin/LoaderElement"
 import { Movie } from "../../types/Movie"
 import MovieCard from "../../components/MovieCard/MovieCard"
 
-
+// These values are used to define the limit for the number of films fetched per page.
 const itemsPerPageOptions: number[] = [5,10,25]
 
 const MoviePage: React.FC = () => {
 
     const [page, setPage] = useState<number>(1)
     const [limit, setLimit] = useState<number>(itemsPerPageOptions[0])
+    const [searchTitle] = useState<string>("")
         
 
-    const {data: resultMovie, isLoading: isLoadingAllMovies} = useAllMovies(page, limit)
+    const {data: resultMovie, isLoading: isLoadingAllMovies} = useMoviesByTitle(page, limit, searchTitle)
 
        
     

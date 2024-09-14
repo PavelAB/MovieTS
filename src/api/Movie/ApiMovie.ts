@@ -8,14 +8,15 @@ const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL
 /**
  * Fetches a list of movies from th API.
  * 
- * @param {number} page- The page number for pagination.
+ * @param {number} page - The page number for pagination.
  * @param {number} limit - The number of movies per page for pagination.
+ * @param {string} searchTitle - The researched title 
  * @returns {Promise<SuccessResponse<Movie[]>>} A promise that resolves to an Object SuccessResponse<T>.
  * @throws {Error} If the fetch fails or return an error response.
  */
-export const fetchMovies = async (page: number, limit: number): Promise<SuccessResponse<Movie[]>> => {
- 
-    const url: string = MOVIE_URL + `/movies?page=${page}&limit=${limit}`
+export const fetchMoviesByTitle = async (page: number, limit: number, searchTitle: string): Promise<SuccessResponse<Movie[]>> => {
+
+    const url: string = MOVIE_URL + `/movies/searchByTitle?page=${page}&limit=${limit}&searchString=${searchTitle}`
     const response = await fetch(url)
 
     const result: SuccessResponse<Movie[]> | ErrorResponse = await response.json()
