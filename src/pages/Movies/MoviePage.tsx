@@ -3,9 +3,13 @@ import { useMoviesByTitle } from "../../hooks/useMovie"
 import LoaderElement from "../../components/LoaderSpin/LoaderElement"
 import { Movie } from "../../types/Movie"
 import MovieCard from "../../components/MovieCard/MovieCard"
+import LimitButton from "../../components/Buttons/LimitButton"
 
 // These values are used to define the limit for the number of films fetched per page.
 const itemsPerPageOptions: number[] = [5,10,25]
+
+
+
 
 const MoviePage: React.FC = () => {
 
@@ -25,6 +29,7 @@ const MoviePage: React.FC = () => {
     console.log("result", resultMovie)
 
 
+
     return (
         <div className="col-span-12 flex flex-col min-h-screen border border-red-600">
             <div className="flex-grow-[1] h-[33vh] my-5 border border-green-600 flex flex-col items-center justify-center gap-4">
@@ -34,30 +39,30 @@ const MoviePage: React.FC = () => {
                 </div>
             </div>
             <div className=" flex gap-2 items-center justify-end mr-5">
-                <button
-                    className="px-3 h-8 min-w-[42px] text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" 
-                    onClick={() => {
-                            setLimit(itemsPerPageOptions[0])
-                            setPage(1)
-                            }}>
-                        {itemsPerPageOptions[0]}
-                </button>
-                <button 
-                    className="px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" 
-                    onClick={() => {
-                            setLimit(itemsPerPageOptions[1])
-                            setPage(1)
-                            }}>
-                        {itemsPerPageOptions[1]}
-                </button>
-                <button
-                    className="px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  
-                    onClick={() => {
-                            setLimit(itemsPerPageOptions[2])
-                            setPage(1)
-                            }}>
-                        {itemsPerPageOptions[2]}
-                </button>
+                <LimitButton
+                    limit={itemsPerPageOptions[0]}
+                    isLimit={limit} 
+                    setPage={() => {
+                        setLimit(itemsPerPageOptions[0])
+                        setPage(1)
+                        }}
+                    />
+                <LimitButton
+                    limit={itemsPerPageOptions[1]}
+                    isLimit={limit} 
+                    setPage={() => {
+                        setLimit(itemsPerPageOptions[1])
+                        setPage(1)
+                        }}
+                    />
+                <LimitButton
+                    limit={itemsPerPageOptions[2]}
+                    isLimit={limit} 
+                    setPage={() => {
+                        setLimit(itemsPerPageOptions[2])
+                        setPage(1)
+                        }}
+                    />
             </div>
             <div className="flex-grow-[2] grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
                 {
