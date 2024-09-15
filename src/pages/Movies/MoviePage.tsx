@@ -16,11 +16,18 @@ const MoviePage: React.FC = () => {
     const [page, setPage] = useState<number>(1)
     const [limit, setLimit] = useState<number>(itemsPerPageOptions[0])
     const [searchTitle] = useState<string>("")
-        
+     
+
 
     const {data: resultMovie, isLoading: isLoadingAllMovies} = useMoviesByTitle(page, limit, searchTitle)
 
-       
+     
+    const updateLimit = ( newLimit: number): void => {
+        setLimit(newLimit)
+        setPage(1)
+    }
+
+
     
     if(isLoadingAllMovies && !resultMovie){
         return <LoaderElement />
@@ -42,27 +49,15 @@ const MoviePage: React.FC = () => {
                 <LimitButton
                     limit={itemsPerPageOptions[0]}
                     isLimit={limit} 
-                    setPage={() => {
-                        setLimit(itemsPerPageOptions[0])
-                        setPage(1)
-                        }}
-                    />
+                    setPage={() => updateLimit(itemsPerPageOptions[0])}/>
                 <LimitButton
                     limit={itemsPerPageOptions[1]}
                     isLimit={limit} 
-                    setPage={() => {
-                        setLimit(itemsPerPageOptions[1])
-                        setPage(1)
-                        }}
-                    />
+                    setPage={() => updateLimit(itemsPerPageOptions[1])}/>
                 <LimitButton
                     limit={itemsPerPageOptions[2]}
                     isLimit={limit} 
-                    setPage={() => {
-                        setLimit(itemsPerPageOptions[2])
-                        setPage(1)
-                        }}
-                    />
+                    setPage={() => updateLimit(itemsPerPageOptions[2])}/>
             </div>
             <div className="flex-grow-[2] grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
                 {
