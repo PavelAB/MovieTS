@@ -35,24 +35,14 @@ export const fetchMoviesByTitle = async (page: number, limit: number, searchTitl
 /**
  * Fetches a movie by its ID.
  * 
- * @param {string} movieID - The ID of the movie to fetch.
+ * @param {number} ID_Movie - The ID of the movie to fetch.
  * @returns {Promise<Movie>} A promise that resolves to a Movie object containing movie details.
  * @throws {Error} If no movie ID is provided or if the fetch fails.
  */
 
-export const fetchMovieByID = async (movieID: string): Promise<Movie> => {
+export const fetchMovieByID = async (ID_Movie: number): Promise<Movie> => {    
 
-    // TODO Needs to be refactored.
-
-    const ID_Number: number = Number(movieID)
-
-    if(!movieID)
-        throw new Error(`No ID provided to fetch movie`)
-
-    if(!ID_Number)
-        throw new Error(`ID provided is not a number`)
-
-    const url: string = MOVIE_URL+"/movies/"+movieID
+    const url: string = MOVIE_URL+"/movies/" + ID_Movie
     const response = await fetch(url)
 
     const result: Movie | ErrorResponse = await response.json()

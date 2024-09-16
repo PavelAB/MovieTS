@@ -4,6 +4,7 @@ import LoaderElement from "../../components/LoaderSpin/LoaderElement"
 import { Movie } from "../../types/Movie"
 import MovieCard from "../../components/MovieCard/MovieCard"
 import LimitButton from "../../components/Buttons/LimitButton"
+import { useNavigate } from "react-router-dom"
 
 // These values are used to define the limit for the number of films fetched per page.
 const itemsPerPageOptions: number[] = [5, 10, 25]
@@ -16,6 +17,7 @@ const MoviePage: React.FC = () => {
     const [page, setPage] = useState<number>(1)
     const [limit, setLimit] = useState<number>(itemsPerPageOptions[0])
     const [searchTitle, setSearchTitle] = useState<string>("")
+    const navigate = useNavigate()
 
 
 
@@ -34,8 +36,13 @@ const MoviePage: React.FC = () => {
     }
 
 
-    if (isLoadingAllMovies && !resultMovie) {
+    if (isLoadingAllMovies) {
         return <LoaderElement />
+    }
+
+    // TODO Create a reusable component that will display a general error for missing data.
+    if(!resultMovie){ 
+        return <h1>No movie</h1>
     }
 
     console.log("result", resultMovie)
@@ -88,8 +95,10 @@ const MoviePage: React.FC = () => {
             </div>
             <div className="flex-grow-[2] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
                 {
-                    resultMovie?.data.length !== 0 ? resultMovie?.data.map((movie: Movie) => {
-                        return <MovieCard key={movie.ID_Movie} movie={movie} />
+                    resultMovie.data.length !== 0 ? resultMovie.data.map((movie: Movie) => {
+                        return <MovieCard key={movie.ID_Movie} movie={movie} onDetails={(ID_Movie) => {
+                            navigate(`/movie/${ID_Movie}`)
+                        }}/>
 
                     }) :
                     <h1 className="col-span-full text-center mx-auto my-auto">
@@ -107,7 +116,7 @@ const MoviePage: React.FC = () => {
                 <p>{page}</p>
                 <button
                     className="px-3 h-8 min-w-[78px] text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    disabled={resultMovie!.totalPages > page ? false : true}
+                    disabled={resultMovie.totalPages > page ? false : true}
                     onClick={() => setPage((prevPage) => prevPage + 1)}>
                     Next
                 </button>

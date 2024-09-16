@@ -5,6 +5,7 @@ import { SuccessResponse } from "../types/SuccesResponse"
 
 
 
+
 /**
  * Custom React hook to fetch a list of movies.
  *
@@ -28,12 +29,26 @@ export const useMoviesByTitle = (page: number = 1, limit: number = 10, searchTit
  * Custom React hook to fetch movie details by movie ID.
  *
  * @param {string} movieID - The ID of the movie to fetch.
+ * @param {boolean} shouldFetch - A boolean indicating whether the movie should be fetched or not.
  * @returns {UseQueryResult<Movie, Error>} An object containing the query status fetched data, and error information.
  */
 
-export const useMovieByID = (movieID: string): UseQueryResult<Movie, Error> => {
+export const useMovieByID = (movieID: string | undefined, shouldFetch: boolean): UseQueryResult<Movie, Error> => {
+
+    // TODO Needs to be refactored.
+    
+    if(!movieID)
+        throw new Error(`No ID provided to fetch movie`)
+    
+    const ID_Number: number = Number(movieID)
+
+    if(!ID_Number)
+        throw new Error(`ID provided is not a number`)
+
+
     return useQuery<Movie, Error>({
-        queryKey: ['movies', movieID], 
-        queryFn: () => fetchMovieByID(movieID)
+        queryKey: ['movies', ID_Number], 
+        queryFn: () => fetchMovieByID(ID_Number),
+        enabled: shouldFetch
     })
 }
