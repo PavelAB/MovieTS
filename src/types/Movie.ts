@@ -1,3 +1,6 @@
+import { AwardMovie } from "./AwardMovie";
+import { Company } from "./Company";
+import { Genre } from "./Genre";
 import { Person } from "./Person";
 
 export interface Movie {
@@ -9,11 +12,11 @@ export interface Movie {
     Ratings?: any;            // TODO Type Rating[]
     Comments?: any;          // TODO Type Comments[]
     Tags?: any;              // TODO Type Tags[]
-    Companies?: any;         // TODO Type Companies[]
-    Awards_Movies?: any;      // TODO Type Award_Movies[]
+    Companies?: Company[];         // TODO Type Companies[]
+    Awards_Movies?: AwardMovie[];      // TODO Type Award_Movies[]
     Actors: Person[];            // TODO Type Actors[]
     Writers?: any;           // TODO Type Writers[]
     Director?: Person;          // TODO Type Director
-    Genres?: any;            // TODO Type Genres[]
+    Genres?: Genre[];            // TODO Type Genres[]
 
 }
