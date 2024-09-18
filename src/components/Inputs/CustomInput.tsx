@@ -1,6 +1,18 @@
 import React from "react"
 
 
+/**
+ * A reusable input component used for forms in login and sign-up pages.
+ *
+ * @interface CustomInputProp
+ * @property {string} inputValue - The current value of the input field.
+ * @property {(event: React.ChangeEvent<HTMLInputElement>) => void} updateInputValue - Function to update the input value.
+ * @property {string} [inputPlaceHolder] - Optional placeholder text for the input field.
+ * @property {string} labelText - Label text that acts as a title for the input.
+ * @property {HTMLInputTypeAttribute} [inputType] - Optional HTML input type to define the input field type.
+ * @property {string} [name] - Optional input name to improve form referencing.
+ */
+
 interface CustomInputProp {
     inputValue: string,
     updateInputValue: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -10,6 +22,13 @@ interface CustomInputProp {
     name?: string
 
 }
+
+/**
+ * CustomInput component that renders an input for forms, typically used in login and sign-up pages.
+ *
+ * @param {CustomInputProp} props - Props for the CustomInput component.
+ * @returns {JSX.Element} A styled div element containing an input and a label.
+ */
 
 const CustomInput: React.FC<CustomInputProp> = ({
     inputValue, 
