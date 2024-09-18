@@ -13,8 +13,8 @@ const MovieCard: React.FC<{movie: Movie, onDetails: (ID_Movie: number) => void}>
             <h2 className="font-mono font-bold text-lg">{movie.title}</h2>
             <p className="text-xs">Director : {movie.Director ? `${movie.Director.first_name} ${movie.Director.last_name}`  : 'No Information'}</p>
             <p className="flex justify-start">
-                <span className="mr-3">{movie.Comments ? "Comments : " + movie.Comments.length : 0}</span>
-                <span>Rate : {(movie.Ratings && movie.Ratings.length > 0) ? movie.Ratings.reduce((acc: number, currVal: Rating) => acc + currVal.rate_picture, 0) / movie.Ratings.length : 'N/A'}</span>
+                <span className="mr-3 whitespace-nowrap">{movie.Comments ? "Comments : " + movie.Comments.length : 0}</span>
+                <span className="whitespace-nowrap">Rate : {(movie.Ratings && movie.Ratings.length > 0) ? movie.Ratings.reduce((acc: number, currVal: Rating) => acc + currVal.rate_picture, 0) / movie.Ratings.length : 'N/A'}</span>
             </p>
         </div>
     )
