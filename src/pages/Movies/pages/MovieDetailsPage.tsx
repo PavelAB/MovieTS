@@ -6,6 +6,8 @@ import { Person } from "../../../types/Person";
 import { Genre } from "../../../types/Genre";
 import { Company } from "../../../types/Company";
 import { AwardMovie } from "../../../types/AwardMovie";
+import { Comment } from "../../../types/Comment";
+import CommentCard from "../../../components/Comments/CommentCard";
 
 
 interface InfoRowProps<T> {
@@ -153,8 +155,25 @@ const MovieDetailsPage: React.FC = () => {
                           })}
                         isList={false}
                     />
+                </div>                
+            </div>
+            <div>
+                {/* Rangs */}
+            </div>
+            <div className="p-6 min-w-[80%]">
+                {/* For the proper functioning of the comments section, I want to add 
+                    the ability to like comments and display the number of likes/dislikes. 
+                    I need to rethink the way data is retrieved from the backend. */}
+                <h2 className="text-lg font-bold mb-4">
+                    Comments
+                </h2>
+                <div className="flex flex-col gap-4">
+                    {
+                        movie.Comments.map((comment: Comment, index: number) =>
+                            <CommentCard key={`Comment${index}`} Comment={comment} />
+                        )
+                    }
                 </div>
-
             </div>
         </div>
     )

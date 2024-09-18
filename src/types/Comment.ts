@@ -4,8 +4,8 @@ export interface Comment {
     
     ID_Comment: number;
     body: string;
-    User: any; // TODO change this
-
-    Movie?: Partial<Movie>;
+    ID_User: any; // TODO change this
     
+    Movie?: Partial<Movie>;
+    createdAt: Date;
 }
