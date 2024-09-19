@@ -8,6 +8,7 @@ import { Company } from "../../../types/Company";
 import { AwardMovie } from "../../../types/AwardMovie";
 import { Comment } from "../../../types/Comment";
 import CommentCard from "../../../components/Comments/CommentCard";
+import RadarDiagramForRank from "../../../components/Echarts/RadarDiagramForRanks";
 
 
 interface InfoRowProps<T> {
@@ -97,7 +98,7 @@ const MovieDetailsPage: React.FC = () => {
     console.log("movie", movie)
 
     return (
-        <div className="col-span-12 flex flex-col min-h-screen border border-red-500 justify-center items-center">
+        <div className="col-span-12 flex flex-col min-h-screen border border-red-500 justify-center items-center gap-4">
             <div className="text-center">
                 <h1 className="text-base font-semibold leading-7 text-gray-900">
                     {movie.title}
@@ -157,8 +158,8 @@ const MovieDetailsPage: React.FC = () => {
                     />
                 </div>                
             </div>
-            <div>
-                {/* Rangs */}
+            <div className="min-w-[80%]">
+                <RadarDiagramForRank rangs={movie.Ratings}/>
             </div>
             <div className="p-6 min-w-[80%]">
                 {/* For the proper functioning of the comments section, I want to add 
