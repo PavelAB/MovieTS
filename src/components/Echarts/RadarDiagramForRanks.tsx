@@ -1,8 +1,16 @@
-import * as echarts from "echarts"
+//TODO Think even more about optimization because, due to ECharts, the bundle exceeds 500KB, but that will be for later.
+import * as echarts from "echarts/core"
+import { RadarChart } from "echarts/charts"
+import { TooltipComponent, TitleComponent, LegendComponent } from "echarts/components";
+import { CanvasRenderer } from "echarts/renderers";
+
 import { useEffect} from "react"
 import { Rating } from "../../types/Rating"
 
-type EChartsOption = echarts.EChartsOption
+echarts.use([RadarChart, TooltipComponent, TitleComponent, LegendComponent, CanvasRenderer]);
+
+
+type EChartsOption = echarts.EChartsCoreOption
 
 
 interface RadarDiagramProps {
@@ -12,11 +20,14 @@ interface RadarDiagramProps {
 
 const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs }) => {
 
-    console.log(rangs)
+    const actorGameRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_actor_game, 0)/ rangs.length
+    const writingRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_writing, 0)/ rangs.length
+    const cinematographyRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_cinematography, 0)/ rangs.length
+    const soundRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_sound, 0)/ rangs.length
 
 
     useEffect(() => {
-        const myChart = echarts.init(document.getElementById("test"))
+        const myChart = echarts.init(document.getElementById("averageRate"))
         let option: EChartsOption
 
         option = {
@@ -35,10 +46,11 @@ const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs }) => {
                     { name: 'Cinematic Quality', max: 10 },
                     { name: 'Sound Quality', max: 10 }
                 ],
+                // TODO The axis names are hidden when the screen becomes very small, and I currently can't find a solution to this problem.
                 axisName: {
                     show: true,
-                    overflow: "none"
                 }
+                
             },
             series: [
                 {
@@ -46,17 +58,16 @@ const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs }) => {
                     type: 'radar',
                     data: [
                         {
-                            value: [1, 2, 3, 4],
+                            value: [actorGameRate, writingRate, cinematographyRate, soundRate],
                             name: 'Average rates'
                         }
                     ]
                 }
             ]
-        };
+            
+        }
 
 
-
-        // Returns the number of elements to display based on the screen size.
         const updateNomberOfElementDisplayed = (): void => {
             myChart.setOption(option)
             myChart.resize()
@@ -64,9 +75,6 @@ const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs }) => {
 
         updateNomberOfElementDisplayed()
         window.addEventListener('resize', updateNomberOfElementDisplayed)
-
-
-
 
         return () => {
             myChart.dispose()
@@ -76,7 +84,7 @@ const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs }) => {
 
 
     return (
-        <div id={"test"} className={`w-full h-[400px] border border-red-600`} />
+        <div id={"averageRate"} className={`w-full h-[400px]`} />
     )
 }
 
