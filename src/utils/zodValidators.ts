@@ -12,13 +12,27 @@ export const PersonSchema = z.object({
     isDerector: z.any().optional(),  
 })
 
+export const RatingSchena = z.object({
+    
+    ID_Rating: z.number(),
+    rate_picture: z.number(),
+    rate_actor_game: z.number(),
+    rate_cinematography: z.number(),
+    rate_sound: z.number(),
+    rate_writing: z.number(),
+    Movie: z.any().optional(),
+    User: z.any().optional(),
+
+    
+})
+
 export const MovieSchema = z.object({
     ID_Movie: z.number(),
     title: z.string(),
     cover:  z.any().optional(),             
     release_date: z.union([z.string(), z.date()]).optional(),
     directed_by:  z.any().optional(),       
-    Ratings: z.any().optional(),            
+    Ratings: z.array(RatingSchena),            
     Comments:  z.any().optional(),           
     Tags: z.any().optional(),             
     Companies:  z.any().optional(),          

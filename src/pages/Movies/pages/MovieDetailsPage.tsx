@@ -66,6 +66,8 @@ const MovieDetailsPage: React.FC = () => {
 
     // Used to dynamically display the number of elements based on the screen size.
     const [visibleElementsCount, setVisibleElementsCount] = useState<number>(1)
+    // The state isRate is used to optionally display one of two components: true for Average Rate and false for User Rate.
+    const [isRate, setIsRate] = useState<boolean>(true)
 
 
     const { data: movie, isLoading: isLoadingMovie } = useMovieByID(ID_Movie, shouldFetch)
@@ -108,10 +110,15 @@ const MovieDetailsPage: React.FC = () => {
                 </p>
             </div>
             <div className="mt-6 max-w-[80%] border border-black flex flex-col gap-4 items-center justify-center sm:flex-row">
-                <img
+                <div className=" flex flex-col gap-2 items-center">
+                    <img
                     src={`http://localhost:8080${movie.cover}`}
                     className="h-96 w-72 object-contain"
-                />
+                    />
+                    <div>
+                        Global Movie Rate : {(movie.Ratings && movie.Ratings.length > 0) ? movie.Ratings?.reduce((acc, currVal) => acc + currVal.rate_actor_game, 0)/ movie.Ratings?.length : "No information"}
+                    </div>
+                </div>                
                 <div className="divide-y divide-gray-100 flex flex-col border border-blue-600 justify-between ">
                     <InfoRow<Person>
                         title="Director :"
@@ -158,8 +165,15 @@ const MovieDetailsPage: React.FC = () => {
                     />
                 </div>                
             </div>
-            <div className="min-w-[80%]">
-                <RadarDiagramForRank rangs={movie.Ratings}/>
+            <div className="min-w-[80%] flex flex-col gap-4 items-center">
+                <button
+                    className="px-3 h-8 min-w-[42px] max-w-[300px] text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" 
+                    onClick={()=>setIsRate(!isRate)}>
+                        {isRate ? "Your Rate" : "Average Rate"}
+                </button>
+                {
+                    isRate ? <RadarDiagramForRank rangs={movie.Ratings}/> : <div>User Rate</div>
+                }                
             </div>
             <div className="p-6 min-w-[80%]">
                 {/* For the proper functioning of the comments section, I want to add 
