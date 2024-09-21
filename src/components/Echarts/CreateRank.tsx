@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useUser } from "../../context/UserContext";
 import { useParams } from "react-router-dom";
+import ErrorMessage from "../Error/ErrorMessage";
 
 
 
@@ -13,10 +14,15 @@ const CreateRank: React.FC = () => {
     const {ID_Movie} = useParams()
 
     if(!user){
-        return <div>To rate the movie, please log in to the application.</div>
+        return <ErrorMessage
+            title="Please log in."
+            subTitle="Only authorized users can rate the movies."
+            goToPageTitle="log in"
+            goToPageURL="/login"
+        />
     }
 
-    console.log(user?.ID_User, ID_Movie)
+    console.log(user.ID_User, ID_Movie)
 
 
     const [actorGameRate, setActorGameRate] = useState<number>(0)
