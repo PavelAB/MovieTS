@@ -9,6 +9,7 @@ import { AwardMovie } from "../../../types/AwardMovie";
 import { Comment } from "../../../types/Comment";
 import CommentCard from "../../../components/Comments/CommentCard";
 import RadarDiagramForRank from "../../../components/Echarts/RadarDiagramForRanks";
+import CreateRank from "../../../components/Echarts/CreateRank";
 
 
 interface InfoRowProps<T> {
@@ -172,7 +173,7 @@ const MovieDetailsPage: React.FC = () => {
                         {isRate ? "Your Rate" : "Average Rate"}
                 </button>
                 {
-                    isRate ? <RadarDiagramForRank rangs={movie.Ratings}/> : <div>User Rate</div>
+                    isRate ? <RadarDiagramForRank rangs={movie.Ratings}/> : <CreateRank />
                 }                
             </div>
             <div className="p-6 min-w-[80%]">
