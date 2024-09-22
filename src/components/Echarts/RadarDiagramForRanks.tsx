@@ -14,20 +14,22 @@ type EChartsOption = echarts.EChartsCoreOption
 
 
 interface RadarDiagramProps {
-    rangs: Rating[],
+    idHTMLElement: string,
+    title: string,
+    rangs: Rating[] | Partial<Rating>[],
 }
 
 
-const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs }) => {
+const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs, idHTMLElement, title }) => {
 
-    const actorGameRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_actor_game, 0)/ rangs.length
-    const writingRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_writing, 0)/ rangs.length
-    const cinematographyRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_cinematography, 0)/ rangs.length
-    const soundRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_sound, 0)/ rangs.length
+    const actorGameRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_actor_game!, 0)/ rangs.length
+    const writingRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_writing!, 0)/ rangs.length
+    const cinematographyRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_cinematography!, 0)/ rangs.length
+    const soundRate: number = rangs.reduce((acc, currVal) => acc + currVal.rate_sound!, 0)/ rangs.length
 
 
     useEffect(() => {
-        const myChart = echarts.init(document.getElementById("averageRate"))
+        const myChart = echarts.init(document.getElementById(idHTMLElement))
         let option: EChartsOption
 
         option = {
@@ -36,7 +38,7 @@ const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs }) => {
 
             },
             legend: {
-                data: ['Average rates']
+                data: [title]
             },
             radar: {
                 // shape: 'circle',
@@ -59,7 +61,7 @@ const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs }) => {
                     data: [
                         {
                             value: [actorGameRate, writingRate, cinematographyRate, soundRate],
-                            name: 'Average rates'
+                            name: title
                         }
                     ]
                 }
@@ -84,7 +86,7 @@ const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs }) => {
 
 
     return (
-        <div id={"averageRate"} className={`w-full h-[400px]`} />
+        <div id={idHTMLElement} className={`w-full h-[400px] border border-black`} />
     )
 }
 
