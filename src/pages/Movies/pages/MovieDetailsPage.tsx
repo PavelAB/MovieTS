@@ -166,14 +166,14 @@ const MovieDetailsPage: React.FC = () => {
                     />
                 </div>                
             </div>
-            <div className="min-w-[80%] flex flex-col gap-4 items-center">
+            <div className="min-w-[80%] flex flex-col gap-4 items-center border border-green-600">
                 <button
                     className="px-3 h-8 min-w-[42px] max-w-[300px] text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" 
                     onClick={()=>setIsRate(!isRate)}>
                         {isRate ? "Your Rate" : "Average Rate"}
                 </button>
                 {
-                    isRate ? <RadarDiagramForRank rangs={movie.Ratings}/> : <CreateRank />
+                    isRate ? <RadarDiagramForRank rangs={movie.Ratings} idHTMLElement="averageRate" title="Average Rate"/> : <CreateRank />
                 }                
             </div>
             <div className="p-6 min-w-[80%]">
