@@ -172,7 +172,8 @@ const MovieDetailsPage: React.FC = () => {
                     onClick={()=>setIsRate(!isRate)}>
                         {isRate ? "Your Rate" : "Average Rate"}
                 </button>
-                {
+                {   
+                    //TODO Remember to save the values entered by the user if they navigate between two diagrams.
                     isRate ? <RadarDiagramForRank rangs={movie.Ratings} idHTMLElement="averageRate" title="Average Rate"/> : <CreateRank />
                 }                
             </div>
