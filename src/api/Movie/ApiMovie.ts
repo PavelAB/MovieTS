@@ -6,12 +6,12 @@ import { MovieSchema } from "../../utils/zodValidators"
 const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL
 
 /**
- * Fetches a list of movies from th API.
+ * Fetches a list of movies where the title contains 'searchTitle' from the API.
  * 
  * @param {number} page - The page number for pagination.
  * @param {number} limit - The number of movies per page for pagination.
- * @param {string} searchTitle - The researched title 
- * @returns {Promise<SuccessResponse<Movie[]>>} A promise that resolves to an Object SuccessResponse<T>.
+ * @param {string} searchTitle - The title to search for.
+ * @returns {Promise<SuccessResponse<Movie[]>>} A promise that resolves to a SuccessResponse object containing an array of movies.
  * @throws {Error} If the fetch fails or return an error response.
  */
 export const fetchMoviesByTitle = async (page: number, limit: number, searchTitle: string): Promise<SuccessResponse<Movie[]>> => {
