@@ -82,7 +82,7 @@ const RadarDiagramForRank: React.FC<RadarDiagramProps> = ({ rangs, idHTMLElement
             myChart.dispose()
             window.removeEventListener('resize', updateNomberOfElementDisplayed)
         }
-    }, [])
+    }, [rangs])
 
 
     return (
