@@ -8,7 +8,7 @@ export interface Rating {
     rate_cinematography: number;
     rate_sound: number;
     rate_writing: number;
-    Movie?: Partial<Movie>;
-    User?: Partial<any>; //TODO change this
+    Movie?: Partial<Movie> | string;
+    User?: Partial<any> | string; //TODO change this
 
 }
