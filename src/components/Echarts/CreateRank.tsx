@@ -5,6 +5,7 @@ import ErrorMessage from "../Error/ErrorMessage";
 import { Rating } from "../../types/Rating";
 import RadarDiagramForRank from "./RadarDiagramForRanks";
 import { RangeInput } from "../Inputs/RangeInput";
+import { useRatingByMovieAndUser } from "../../hooks/useRating";
 
 
 
@@ -15,20 +16,6 @@ const CreateRank: React.FC = () => {
 
     const { user } = useUser()
     const { ID_Movie } = useParams()
-
-    if (!user) {
-        return <ErrorMessage
-            title="Please log in."
-            subTitle="Only authorized users can rate the movies."
-            goToPageTitle="log in"
-            goToPageURL="/login"
-        />
-    }
-
-    console.log(user.ID_User, ID_Movie)
-
-
-
 
     const [actorGameRate, setActorGameRate] = useState<number>(5)
     const [writingRate, setWritingRate] = useState<number>(5)
@@ -42,8 +29,22 @@ const CreateRank: React.FC = () => {
         rate_sound: soundRate,
         rate_writing: writingRate,
         Movie: ID_Movie,
-        User: user.ID_User
+        User: user ? user.ID_User : "" 
     })
+
+
+    const shouldFetch: boolean = user ? true : false
+    const { data: rating } = useRatingByMovieAndUser(Number(ID_Movie), Number(user?.ID_User), user?.token!, shouldFetch)
+
+    useEffect(() => {
+        if(rating){
+            setActorGameRate(rating.rate_actor_game)
+            setCinematographyRate(rating.rate_cinematography)
+            setSoundRate(rating.rate_sound)
+            setWritingRate(rating.rate_writing)
+        }
+    }, [rating])
+
 
     useEffect(() => {
         setNewRang({
@@ -52,10 +53,24 @@ const CreateRank: React.FC = () => {
             rate_sound: soundRate,
             rate_writing: writingRate,
             Movie: ID_Movie,
-            User: user.ID_User
+            User: user ? user.ID_User : ""
         })
-    }, [actorGameRate, writingRate, cinematographyRate, soundRate])
+    }, [actorGameRate, writingRate, cinematographyRate, soundRate, user, ID_Movie]
+)
 
+
+
+    if (!user) {
+        return <ErrorMessage
+            title="Please log in."
+            subTitle="Only authorized users can rate the movies."
+            goToPageTitle="log in"
+            goToPageURL="/login"
+        />
+    }
+    
+    console.log(user.ID_User, ID_Movie)
+    console.log("data ..:> ", rating)
 
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -63,6 +78,7 @@ const CreateRank: React.FC = () => {
 
         console.log()
     }
+
 
     return (
         <div className="flex flex-col w-full items-center gap-4">

@@ -11,7 +11,7 @@ import { SuccessResponse } from "../types/SuccesResponse"
  *
  * @param {number} [page=1] - The page number for pagination (default is 1).
  * @param {number} [limit=10] - The number of movies per page for pagination (default is 10).
- * @param {string} [searchTitle = <empty string>] - The researched title (default is empty string)
+ * @param {string} [searchTitle = <empty string>] - The researched title (default is empty string).
  * @returns {UseQueryResult<SuccessResponse<Movie[]>, Error>} An object containing the query status fetched Obejct contains data, and error information.
  */
 export const useMoviesByTitle = (page: number = 1, limit: number = 10, searchTitle: string = ""): UseQueryResult<SuccessResponse<Movie[]>, Error> => {
