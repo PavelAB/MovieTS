@@ -17,6 +17,10 @@ import { fetchRatingByMovieAndUser } from "../api/Rating/ApiRating";
  */
 export const useRatingByMovieAndUser = (ID_Movie: number, ID_User: number, token: string, shouldFetch: boolean = true): UseQueryResult<Rating | null, Error> => {
     
+    if (!ID_Movie || !ID_User || !token) {
+        shouldFetch = false
+    }
+
     return useQuery<Rating | null, Error>({
         queryKey: ['ratingByMovieAndUser', ID_Movie, ID_User, token],
         queryFn: () => fetchRatingByMovieAndUser(ID_Movie, ID_User, token),
