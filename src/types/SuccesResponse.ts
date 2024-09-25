@@ -4,3 +4,8 @@ export interface SuccessResponse<T>{
     currentPage: number,
     totalPages: number
 }
+
+export interface SuccessResponseMsg{
+    code: number,
+    msg: string
+}
