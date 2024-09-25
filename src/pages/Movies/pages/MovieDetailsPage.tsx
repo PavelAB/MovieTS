@@ -117,7 +117,7 @@ const MovieDetailsPage: React.FC = () => {
                     className="h-96 w-72 object-contain"
                     />
                     <div>
-                        Global Movie Rate : {(movie.Ratings && movie.Ratings.length > 0) ? movie.Ratings?.reduce((acc, currVal) => acc + currVal.rate_actor_game, 0)/ movie.Ratings?.length : "No information"}
+                        Global Movie Rate : {(movie.Ratings && movie.Ratings.length > 0) ? movie.Ratings?.reduce((acc, currVal) => acc + currVal.rate_picture, 0)/ movie.Ratings?.length : "No information"}
                     </div>
                 </div>                
                 <div className="divide-y divide-gray-100 flex flex-col border border-blue-600 justify-between ">
