@@ -1,6 +1,7 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useMutation, UseMutationResult, useQuery, UseQueryResult } from "@tanstack/react-query";
 import { Rating } from "../types/Rating";
-import { fetchRatingByMovieAndUser } from "../api/Rating/ApiRating";
+import { createRating, fetchRatingByMovieAndUser } from "../api/Rating/ApiRating";
+import { SuccessResponseMsg } from "../types/SuccesResponse";
 
 
 
@@ -26,4 +27,20 @@ export const useRatingByMovieAndUser = (ID_Movie: number, ID_User: number, token
         queryFn: () => fetchRatingByMovieAndUser(ID_Movie, ID_User, token),
         enabled: shouldFetch
     })
+}
+
+/**
+ * Custom React hook to handle the creation or update of a rating.
+ *
+ * @param {Partial<Rating>} ratingData - A partial `Rating` object containing the data to create or update a rating.
+ * @param {string} token - The Bearer token used for authorization in the request.
+ * 
+ * @returns {UseMutationResult<SuccessResponseMsg, Error, void, unknown>} - A mutation result object that includes the mutate function for triggering the request.
+ */
+export const useNewRating = (ratingData: Partial<Rating>, token: string):UseMutationResult<SuccessResponseMsg, Error, void, unknown> => {
+    const mutation = useMutation({
+        mutationFn: () => createRating(ratingData, token)
+    })
+
+    return mutation
 }

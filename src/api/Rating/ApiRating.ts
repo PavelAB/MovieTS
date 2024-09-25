@@ -1,6 +1,6 @@
 import { ErrorResponse } from "../../types/Error";
 import { Rating } from "../../types/Rating";
-import { SuccessResponse } from "../../types/SuccesResponse";
+import { SuccessResponse, SuccessResponseMsg } from "../../types/SuccesResponse";
 
 const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL
 
@@ -42,4 +42,40 @@ export const fetchRatingByMovieAndUser = async (ID_Movie: number, ID_User: numbe
 
     return searchedRating
 
+}
+
+
+/**
+ * Function to create or update a rating for a specific movie by the connected user. Primarily used in the CreateRank.tsx component.
+ * 
+ * @param {Partial<Rating>} ratingData - A partial `Rating` object containing the data to create or update a rating.
+ * @param {string} token - The Bearer token used for authorization in the request. 
+ * 
+ * @returns {Promise<SuccessResponseMsg>} A promise that resolves to a 'SuccessResponseMsg' containing information about whether the rating was created or updated.
+ * 
+ * @throws {Error} If the creation or update fails, throws an error with a descriptive message.
+ */
+export const createRating = async (ratingData: Partial<Rating>, token: string): Promise<SuccessResponseMsg> => {
+
+
+    const url: string = MOVIE_URL+"/ratings"
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(ratingData)
+    })
+
+    const result: SuccessResponseMsg | ErrorResponse = await response.json()
+
+    if(!response.ok) {
+        const errorResponse: ErrorResponse = result as ErrorResponse
+        throw new Error(`Error during the POST request: ${errorResponse.msg}`)
+    }
+
+    const success: SuccessResponseMsg = result as SuccessResponseMsg
+
+    return success
 }

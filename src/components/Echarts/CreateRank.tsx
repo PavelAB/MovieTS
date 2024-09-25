@@ -5,7 +5,9 @@ import ErrorMessage from "../Error/ErrorMessage";
 import { Rating } from "../../types/Rating";
 import RadarDiagramForRank from "./RadarDiagramForRanks";
 import { RangeInput } from "../Inputs/RangeInput";
-import { useRatingByMovieAndUser } from "../../hooks/useRating";
+import { useNewRating, useRatingByMovieAndUser } from "../../hooks/useRating";
+import { SuccessResponseMsg } from "../../types/SuccesResponse";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 
@@ -35,6 +37,9 @@ const CreateRank: React.FC = () => {
 
     const shouldFetch: boolean = user ? true : false
     const { data: rating } = useRatingByMovieAndUser(Number(ID_Movie), Number(user?.ID_User), user?.token!, shouldFetch)
+    const queryClient = useQueryClient() 
+    const {mutate} = useNewRating(newRang, user?.token!)
+
 
     useEffect(() => {
         if(rating){
@@ -76,7 +81,21 @@ const CreateRank: React.FC = () => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault()
 
-        console.log()
+        //TODO Validation
+
+        mutate(
+            undefined,
+            {
+                onSuccess: (data: SuccessResponseMsg): void => {
+                    console.log(data.msg)
+                    queryClient.invalidateQueries({queryKey: ['movies']})
+                },
+                onError: (err: Error): void => {
+                    console.log('Error during login:', err)
+                }
+            }
+        )        
+
     }
 
 
