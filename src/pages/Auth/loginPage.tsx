@@ -5,7 +5,7 @@ import { User } from "../../types/User";
 import { useLogin } from "../../hooks/useAuth";
 import { ErrorValidator } from "../../types/Error";
 import { validateLoginFormData } from "../../Validators/userFormValidators";
-import { useUser } from "../../context/UserContext";
+import { colorOfToastMessage, useUser } from "../../context/UserContext";
 
 const LoginPage: React.FC = () => {
 
@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
     const [password, setPassword] = useState<string>('')
     const {mutate} = useLogin()
     const navigate = useNavigate() // TODO Check for a better implementation
-    const { updateUser } = useUser()
+    const { updateUser, showToast } = useUser()
 
 
     // resetFormFields clears the form fields
@@ -40,15 +40,17 @@ const LoginPage: React.FC = () => {
             formData,
             {
                 onSuccess: (data: User): void => {
-                    console.log('Login successful')
                     
                     resetFormFields()
-                    updateUser(data)                  
+                    updateUser(data)
+
+                    showToast({message: "Login successful"})
 
                     navigate("/")
                 },
                 onError: (err: Error): void => {
                     console.log('Error during login:', err)
+                    showToast({message: `Error during login: ${err}`, color: colorOfToastMessage.red})
                 }
             })
         

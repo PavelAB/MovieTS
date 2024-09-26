@@ -2,15 +2,33 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import { User } from "../types/User";
 import ReactDOM from "react-dom";
 
+
+
 const UserContext = createContext<{
     user: Partial<User> | null
     updateUser: (user: User) => void
     logOut: () => void
-    showToast: (message: string, time?: number) => void
+    showToast: (arg: ToastProps) => void
 } | undefined>(undefined)
 
 type UserProviderProps = {
     children: ReactNode
+}
+
+type ToastProps = {
+    message: string,
+    time?: number,
+    color?: string
+}
+
+type ColorTypeForMessage = {
+    green: string,
+    red: string
+}
+
+export const colorOfToastMessage:ColorTypeForMessage = {
+    green: "green",
+    red: "red"
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
@@ -22,6 +40,7 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
         return token && ID_User && role ? {token, ID_User, role} : null
     })
     const [message, setMessage] = useState<string | null>(null)
+    const [color, setColor] = useState<string>(colorOfToastMessage.green)
 
 
     const updateUser = (newUser: Partial<User> | null): void => {
@@ -45,8 +64,10 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
     }
 
 
-    const showToast = (message: string, time: number = 3000) => {
+    const showToast = ({message, time = 3000, color = colorOfToastMessage.green}: ToastProps) => {
+        console.log("color", color)
         setMessage(message)
+        setColor(color)
         setTimeout(() => {
             setMessage(null)
         }, time)
@@ -72,7 +93,7 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
             {children}
             {
                 message && ReactDOM.createPortal(
-                    <div className="fixed top-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg z-50">
+                    <div className={`fixed top-4 right-4 bg-${color ? color : "green"}-500 text-white p-4 rounded shadow-lg z-50`}>
                         {message}
                     </div>,
                     document.body

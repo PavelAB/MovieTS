@@ -10,10 +10,6 @@ import { SuccessResponseMsg } from "../../types/SuccesResponse";
 import { useQueryClient } from "@tanstack/react-query";
 
 
-
-
-
-
 const CreateRank: React.FC = () => {
 
     const { user, showToast } = useUser()
@@ -89,7 +85,7 @@ const CreateRank: React.FC = () => {
                 onSuccess: (data: SuccessResponseMsg): void => {
                     console.log(data.msg)
                     queryClient.invalidateQueries({queryKey: ['movies']})
-                    showToast(data.msg)
+                    showToast({message: data.msg})
                 },
                 onError: (err: Error): void => {
                     console.log('Error during login:', err)
