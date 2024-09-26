@@ -1,10 +1,12 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { User } from "../types/User";
+import ReactDOM from "react-dom";
 
 const UserContext = createContext<{
     user: Partial<User> | null
     updateUser: (user: User) => void
     logOut: () => void
+    showToast: (message: string, time?: number) => void
 } | undefined>(undefined)
 
 type UserProviderProps = {
@@ -19,6 +21,7 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
         const role: string | null = localStorage.getItem("role")
         return token && ID_User && role ? {token, ID_User, role} : null
     })
+    const [message, setMessage] = useState<string | null>(null)
 
 
     const updateUser = (newUser: Partial<User> | null): void => {
@@ -41,6 +44,14 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
         updateUser(null)
     }
 
+
+    const showToast = (message: string, time: number = 3000) => {
+        setMessage(message)
+        setTimeout(() => {
+            setMessage(null)
+        }, time)
+    }
+
     useEffect(() => {
 
         const handleStorageChange = (): void => {
@@ -57,8 +68,16 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
     
 
     return (
-        <UserContext.Provider value={{ user, updateUser, logOut }}>
+        <UserContext.Provider value={{ user, updateUser, logOut, showToast }}>
             {children}
+            {
+                message && ReactDOM.createPortal(
+                    <div className="fixed top-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg z-50">
+                        {message}
+                    </div>,
+                    document.body
+                )
+            }
         </UserContext.Provider>
     )
 }

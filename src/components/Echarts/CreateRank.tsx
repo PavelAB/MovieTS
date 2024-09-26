@@ -16,7 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const CreateRank: React.FC = () => {
 
-    const { user } = useUser()
+    const { user, showToast } = useUser()
     const { ID_Movie } = useParams()
 
     const [actorGameRate, setActorGameRate] = useState<number>(5)
@@ -89,6 +89,7 @@ const CreateRank: React.FC = () => {
                 onSuccess: (data: SuccessResponseMsg): void => {
                     console.log(data.msg)
                     queryClient.invalidateQueries({queryKey: ['movies']})
+                    showToast(data.msg)
                 },
                 onError: (err: Error): void => {
                     console.log('Error during login:', err)

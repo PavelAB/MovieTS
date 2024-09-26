@@ -120,7 +120,7 @@ const MoviePage: React.FC = () => {
                     onClick={() => setPage((prevPage) => prevPage + 1)}>
                     Next
                 </button>
-            </div>
+            </div>            
         </div>
     )
 }
