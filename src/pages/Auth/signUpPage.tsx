@@ -5,7 +5,9 @@ import { User } from "../../types/User"
 import { ErrorValidator } from "../../types/Error"
 import { validateSignUpFormData } from "../../Validators/userFormValidators"
 import { useSignUp } from "../../hooks/useAuth"
-import { useUser } from "../../context/UserContext"
+import { colorOfNotificationMessage, ColorTypeForMessage, useUser } from "../../context/UserContext"
+
+const colors: ColorTypeForMessage = colorOfNotificationMessage
 
 const SignUpPage: React.FC = () => {
 
@@ -19,7 +21,7 @@ const SignUpPage: React.FC = () => {
     })
     const { mutate } = useSignUp()
     const navigate = useNavigate()
-    const { updateUser } = useUser()
+    const { updateUser, showNotification } = useUser()
 
 
     // resetFormFields clears the form fields
@@ -59,15 +61,17 @@ const SignUpPage: React.FC = () => {
             formData,
             {
                 onSuccess: (data: User):void => {
-                    console.log('Sign up successful')
 
                     resetFormFields()
                     updateUser(data)
+
+                    showNotification({message: "Sign up successful"})
 
                     navigate("/")
                 },
                 onError: (err: Error):void => {
                     console.log('Error during sign up:', err)
+                    showNotification({message: `Error during sign up: ${err}`, color: colors.red})
                 }
 
             }
