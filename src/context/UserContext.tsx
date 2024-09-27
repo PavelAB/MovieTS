@@ -3,32 +3,72 @@ import { User } from "../types/User";
 import ReactDOM from "react-dom";
 
 
+//TODO !!! Actually, I don't like the way the documentation and context were created. I really need to review how to do this more properly.
 
-const UserContext = createContext<{
-    user: Partial<User> | null
-    updateUser: (user: User) => void
-    logOut: () => void
-    showToast: (arg: ToastProps) => void
-} | undefined>(undefined)
+
+/**
+ * Interface representing the properties and functions available in the User context.
+ *
+ * @interface UserContextProps
+ * 
+ * @property {Partial<User> | null} user - The current user data, which may be partially defined or null if no user is logged in.
+ * @property {(user: User) => void} updateUser - Function to update the user state with a new User object.
+ * @property {() => void} logOut - Function to log the user out by clearing the user state.
+ * @property {(arg: NotificationProps) => void} showNotification - Function to display a notification, which accepts a `NotificationProps` object containing the message, duration, and color of the notification.
+ */
+export interface UserContextProps {
+  user: Partial<User> | null
+  updateUser: (user: User) => void
+  logOut: () => void
+  showNotification: (arg: NotificationProps) => void
+}
+
+const UserContext = createContext<UserContextProps | undefined>(undefined)
+
 
 type UserProviderProps = {
     children: ReactNode
 }
 
-type ToastProps = {
+
+
+/**
+ * Props for notifications, including message, display time, and color.
+ * 
+ * @type {Object} NotificationProps
+ * @property {string} message - The notification message to display.
+ * @property {number} [time] - The time (in milliseconds) for which the notification is displayed. Optional.
+ * @property {string} [color] - The color of the notification. Optional.
+ */
+export type NotificationProps = {
     message: string,
     time?: number,
     color?: string
 }
 
-type ColorTypeForMessage = {
+
+/**
+ * Colors for different notification messages.
+ * 
+ * @type {Object} ColorTypeForMessage
+ * @property {string} green - The green color for success notifications.
+ * @property {string} red - The red color for error notifications.
+ * @property {string} yellow - The yellow color for warning notifications.
+ */
+export type ColorTypeForMessage = {
     green: string,
-    red: string
+    red: string,
+    yellow: string,
 }
 
-export const colorOfToastMessage:ColorTypeForMessage = {
-    green: "green",
-    red: "red"
+
+/**
+ * Available colors for notification messages.
+ */
+export const colorOfNotificationMessage: ColorTypeForMessage = {
+    green: "bg-green-400",
+    red: "bg-red-400",
+    yellow: "bg-yellow-600"
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
@@ -40,7 +80,7 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
         return token && ID_User && role ? {token, ID_User, role} : null
     })
     const [message, setMessage] = useState<string | null>(null)
-    const [color, setColor] = useState<string>(colorOfToastMessage.green)
+    const [color, setColor] = useState<string>(colorOfNotificationMessage.green)
 
 
     const updateUser = (newUser: Partial<User> | null): void => {
@@ -64,8 +104,12 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
     }
 
 
-    const showToast = ({message, time = 3000, color = colorOfToastMessage.green}: ToastProps) => {
-        console.log("color", color)
+    /**
+     * Function to display a notification with a message. Can be used to notify the user about something.
+     * 
+     * @param {NotificationProps} - Object NotificationProps containing information about the notification to be displayed.
+     */
+    const showNotification = ({message, time = 2000, color = colorOfNotificationMessage.green}: NotificationProps): void => {
         setMessage(message)
         setColor(color)
         setTimeout(() => {
@@ -89,21 +133,53 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
     
 
     return (
-        <UserContext.Provider value={{ user, updateUser, logOut, showToast }}>
-            {children}
-            {
-                message && ReactDOM.createPortal(
-                    <div className={`fixed top-4 right-4 bg-${color ? color : "green"}-500 text-white p-4 rounded shadow-lg z-50`}>
-                        {message}
-                    </div>,
-                    document.body
-                )
-            }
-        </UserContext.Provider>
-    )
+      <UserContext.Provider value={{ user, updateUser, logOut, showNotification }}>
+        {children}
+        {message &&
+          ReactDOM.createPortal(
+            <div
+              className={`fixed top-4 right-4 ${color} text-white p-4 rounded shadow-lg z-50`}
+            >
+              <button
+                onClick={() => setMessage(null)}
+                className="absolute p-1 bg-gray-100 border border-gray-300 rounded-full -top-1 -right-1"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-3 h-3"
+                  viewBox="0 0 20 20"
+                  fill="black"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+              {message}
+            </div>,
+            document.body
+          )}
+      </UserContext.Provider>
+    );
 }
 
-export const useUser = () => {
+
+/**
+ * Custom hook to access the `UserContext`.
+ *
+ * Provides access to the user-related state and actions:
+ * - `user`: The current user data.
+ * - `updateUser`: Function to update the user.
+ * - `logOut`: Function to log the user out.
+ * - `showNotification`: Function to display a notification.
+ * 
+ * @returns {UserContextProps} The user context object.
+ * 
+ * @throws {Error} If used outside of a `UserProvider`.
+ */
+export const useUser = (): UserContextProps => {
     const context = useContext(UserContext)
     if(!context){
         throw new Error('useUser must be used within a UserProvider');

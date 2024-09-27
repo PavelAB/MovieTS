@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useUser } from "../../context/UserContext";
+import { colorOfNotificationMessage, ColorTypeForMessage, useUser } from "../../context/UserContext";
 import { useParams } from "react-router-dom";
 import ErrorMessage from "../Error/ErrorMessage";
 import { Rating } from "../../types/Rating";
@@ -9,10 +9,11 @@ import { useNewRating, useRatingByMovieAndUser } from "../../hooks/useRating";
 import { SuccessResponseMsg } from "../../types/SuccesResponse";
 import { useQueryClient } from "@tanstack/react-query";
 
+const colors: ColorTypeForMessage = colorOfNotificationMessage
 
 const CreateRank: React.FC = () => {
 
-    const { user, showToast } = useUser()
+    const { user, showNotification } = useUser()
     const { ID_Movie } = useParams()
 
     const [actorGameRate, setActorGameRate] = useState<number>(5)
@@ -85,10 +86,11 @@ const CreateRank: React.FC = () => {
                 onSuccess: (data: SuccessResponseMsg): void => {
                     console.log(data.msg)
                     queryClient.invalidateQueries({queryKey: ['movies']})
-                    showToast({message: data.msg})
+                    showNotification({message: data.msg})
                 },
                 onError: (err: Error): void => {
                     console.log('Error during login:', err)
+                    showNotification({message: `Error during login: ${err}`, color: colors.red})
                 }
             }
         )        
