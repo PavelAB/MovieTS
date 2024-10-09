@@ -73,6 +73,10 @@ const MovieDetailsPage: React.FC = () => {
 
     const { data: movie, isLoading: isLoadingMovie } = useMovieByID(ID_Movie, shouldFetch)
 
+    //const shouldFetchComments: boolean = movie?.ID_Movie ? true : false
+
+    //getCommentsByMovie_ID
+
 
     useEffect(() => {
         // Returns the number of elements to display based on the screen size.
@@ -174,6 +178,7 @@ const MovieDetailsPage: React.FC = () => {
                 </button>
                 {   
                     //TODO Remember to save the values entered by the user if they navigate between two diagrams.
+                    //TODO I can't send the 'Rank' table; I only need to send the Movie and User IDs. I'll retrieve the 'Ranks' directly within the component.
                     isRate ? <RadarDiagramForRank rangs={movie.Ratings} idHTMLElement="averageRate" title="Average Rate"/> : <CreateRank />
                 }                
             </div>
