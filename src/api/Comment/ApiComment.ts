@@ -6,8 +6,7 @@ const MOVIE_URL: string = import.meta.env.VITE__MOVIES_API_URL
 
 export const fetchCommentsByMovie = async (ID_Movie: number, token: string): Promise<SuccessResponse<Comment[]>> => {
 
-    //TODO Backend route not implemented
-    const url: string = MOVIE_URL + `${ID_Movie}`
+    const url: string = MOVIE_URL + `/comments/params?ID_Movie=${ID_Movie}`
     const response = await fetch(url,{
         method: 'GET',
         headers: {

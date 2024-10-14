@@ -10,6 +10,8 @@ import { Comment } from "../../../types/Comment";
 import CommentCard from "../../../components/Comments/CommentCard";
 import RadarDiagramForRank from "../../../components/Echarts/RadarDiagramForRanks";
 import CreateRank from "../../../components/Echarts/CreateRank";
+import { useCommentByMovie } from "../../../hooks/useComment";
+import { useUser } from "../../../context/UserContext";
 
 
 interface InfoRowProps<T> {
@@ -63,6 +65,7 @@ export const InfoRow = <T,>({
 const MovieDetailsPage: React.FC = () => {
 
     const { ID_Movie } = useParams()
+    const { user } = useUser()
     const shouldFetch: boolean = ID_Movie ? true : false
 
     // Used to dynamically display the number of elements based on the screen size.
@@ -73,11 +76,11 @@ const MovieDetailsPage: React.FC = () => {
 
     const { data: movie, isLoading: isLoadingMovie } = useMovieByID(ID_Movie, shouldFetch)
 
-    //const shouldFetchComments: boolean = movie?.ID_Movie ? true : false
+    const shouldFetchComments: boolean = movie?.ID_Movie ? true : false
 
-    //getCommentsByMovie_ID
+    const { data: comments, isLoading: isLoadingComments} = useCommentByMovie(Number(ID_Movie), user?.token as string, shouldFetchComments)
 
-
+   
     useEffect(() => {
         // Returns the number of elements to display based on the screen size.
         const updateNomberOfElementDisplayed = (): void => {
@@ -92,17 +95,18 @@ const MovieDetailsPage: React.FC = () => {
         return () => window.removeEventListener('resize', updateNomberOfElementDisplayed)
     })
 
-    if (isLoadingMovie) {
+    if (isLoadingMovie || isLoadingComments) {
         return <LoaderElement />
     }
 
     // TODO Create a reusable component that will display a general error for missing data.
-    if (!movie) {
+    if (!movie || !comments) {
         return <h1>No movie</h1>
     }
 
 
     console.log("movie", movie)
+    console.log("Comments ::> ", comments.data)
 
     return (
         <div className="col-span-12 flex flex-col min-h-screen border border-red-500 justify-center items-center gap-4">
@@ -191,7 +195,7 @@ const MovieDetailsPage: React.FC = () => {
                 </h2>
                 <div className="flex flex-col gap-4">
                     {
-                        movie.Comments.map((comment: Comment, index: number) =>
+                        comments.data.map((comment: Comment, index: number) =>
                             <CommentCard key={`Comment${index}`} Comment={comment} />
                         )
                     }
