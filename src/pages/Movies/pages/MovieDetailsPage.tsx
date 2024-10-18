@@ -6,12 +6,14 @@ import { Person } from "../../../types/Person";
 import { Genre } from "../../../types/Genre";
 import { Company } from "../../../types/Company";
 import { AwardMovie } from "../../../types/AwardMovie";
-import { Comment } from "../../../types/Comment";
+import { Comment, Like } from "../../../types/Comment";
 import CommentCard from "../../../components/Comments/CommentCard";
 import RadarDiagramForRank from "../../../components/Echarts/RadarDiagramForRanks";
 import CreateRank from "../../../components/Echarts/CreateRank";
-import { useCommentByMovie } from "../../../hooks/useComment";
+import { useCommentByMovie, useNewLike } from "../../../hooks/useComment";
 import { useUser } from "../../../context/UserContext";
+import { SuccessResponseMsg } from "../../../types/SuccesResponse";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 interface InfoRowProps<T> {
@@ -66,12 +68,14 @@ const MovieDetailsPage: React.FC = () => {
 
     const { ID_Movie } = useParams()
     const { user } = useUser()
+    const queryClient = useQueryClient()
     const shouldFetch: boolean = ID_Movie ? true : false
 
     // Used to dynamically display the number of elements based on the screen size.
     const [visibleElementsCount, setVisibleElementsCount] = useState<number>(1)
     // The state isRate is used to optionally display one of two components: true for Average Rate and false for User Rate.
     const [isRate, setIsRate] = useState<boolean>(true)
+    const [likeData, setLikeData] = useState<Like>() 
 
 
     const { data: movie, isLoading: isLoadingMovie } = useMovieByID(ID_Movie, shouldFetch)
@@ -80,7 +84,8 @@ const MovieDetailsPage: React.FC = () => {
 
     const { data: comments, isLoading: isLoadingComments} = useCommentByMovie(Number(ID_Movie), user?.token as string, shouldFetchComments)
 
-   
+    const { mutate: mutateLike } = useNewLike(likeData!, user?.token!)
+
     useEffect(() => {
         // Returns the number of elements to display based on the screen size.
         const updateNomberOfElementDisplayed = (): void => {
@@ -104,9 +109,21 @@ const MovieDetailsPage: React.FC = () => {
         return <h1>No movie</h1>
     }
 
-
-    console.log("movie", movie)
-    console.log("Comments ::> ", comments.data)
+    const handleNewLike= (ID_Comment: number): void => {
+        setLikeData({Comment: ID_Comment, User: Number(user?.ID_User)})
+        mutateLike(
+            undefined,
+            {
+                onSuccess: (data: SuccessResponseMsg): void => {
+                    console.log(data.msg)
+                    queryClient.invalidateQueries({queryKey: ['commentByMovie']})
+                },
+                onError: (err: Error): void => {
+                    console.log("Error during create a like", err)
+                }
+            }
+        )
+    }
 
     return (
         <div className="col-span-12 flex flex-col min-h-screen border border-red-500 justify-center items-center gap-4">
@@ -196,7 +213,12 @@ const MovieDetailsPage: React.FC = () => {
                 <div className="flex flex-col gap-4">
                     {
                         comments.data.map((comment: Comment, index: number) =>
-                            <CommentCard key={`Comment${index}`} Comment={comment} />
+                            <CommentCard 
+                                key={`Comment${index}`} 
+                                Comment={comment} 
+                                ID_User={Number(user?.ID_User)} 
+                                createNewLike={(ID_Comment) => handleNewLike(ID_Comment)} 
+                            />
                         )
                     }
                 </div>
