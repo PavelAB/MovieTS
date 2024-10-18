@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { User } from "../types/User";
 import ReactDOM from "react-dom";
+import IconX from "../components/icons/IconX";
 
 
 //TODO !!! Actually, I don't like the way the documentation and context were created. I really need to review how to do this more properly.
@@ -144,18 +145,7 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
                 onClick={() => setMessage(null)}
                 className="absolute p-1 bg-gray-100 border border-gray-300 rounded-full -top-1 -right-1"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-3 h-3"
-                  viewBox="0 0 20 20"
-                  fill="black"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <IconX />
               </button>
               {message}
             </div>,
