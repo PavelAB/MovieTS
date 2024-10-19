@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult, useQuery, UseQueryResult } from "@tanstack/react-query"
 import { Comment, Like } from "../types/Comment"
-import { createLike, fetchCommentsByMovie } from "../api/Comment/ApiComment"
+import { create, createLike, fetchCommentsByMovie } from "../api/Comment/ApiComment"
 import { SuccessResponse, SuccessResponseMsg } from "../types/SuccesResponse"
 
 /**
@@ -36,8 +36,33 @@ export const useCommentByMovie = (ID_Movie: number, token: string, shouldFetch: 
  * @returns {UseMutationResult<SuccessResponseMsg, Error, void, unknown>} - A mutation result object that includes the mutate function for triggering the request.
  */
 export const useNewLike = (likeData: Like, token: string):UseMutationResult<SuccessResponseMsg, Error, void, unknown> => {
+    
+    //TODO Create validation for received variables
+    
     const mutation = useMutation({
         mutationFn: () => createLike(likeData, token)
+    })
+
+    return mutation
+}
+
+/**
+ * Custom React hook to handle the creation a comment.
+ *
+ * @param {Partial<Comment>} commentData - An object containing the data to create a comment.
+ * @param {number} data.Movies - The ID of the movie being commented on.
+ * @param {number} data.Users - The ID of the user creating the comment.
+ * @param {string} data.body - The content of the comment.
+ * @param {string} token - The Bearer token used for authorization in the request.
+ * 
+ * @returns {UseMutationResult<SuccessResponseMsg, Error, void, unknown>} - A mutation result object that includes the mutate function for triggering the request.
+ */
+export const useCreate = (commentData: Partial<Comment>, token: string): UseMutationResult<SuccessResponseMsg, Error, void, unknown> => {
+    
+    //TODO Create validation for received variables
+    
+    const mutation = useMutation({
+        mutationFn: () => create(commentData, token)
     })
 
     return mutation
