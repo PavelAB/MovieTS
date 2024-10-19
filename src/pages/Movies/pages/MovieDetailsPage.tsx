@@ -75,7 +75,8 @@ const MovieDetailsPage: React.FC = () => {
     const [visibleElementsCount, setVisibleElementsCount] = useState<number>(1)
     // The state isRate is used to optionally display one of two components: true for Average Rate and false for User Rate.
     const [isRate, setIsRate] = useState<boolean>(true)
-    const [likeData, setLikeData] = useState<Like>() 
+    const [likeData, setLikeData] = useState<Like>()
+    const [newComment, setNewComment] = useState<string>('') 
 
 
     const { data: movie, isLoading: isLoadingMovie } = useMovieByID(ID_Movie, shouldFetch)
@@ -123,6 +124,18 @@ const MovieDetailsPage: React.FC = () => {
                 }
             }
         )
+    }
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+        event.preventDefault()
+
+        const formData: Partial<Comment> = {
+            Movies: Number(ID_Movie),
+            Users: Number(user?.ID_User!),
+            body: newComment
+        }
+
+        console.log("Comment have been send", formData)
     }
 
     return (
@@ -222,6 +235,32 @@ const MovieDetailsPage: React.FC = () => {
                         )
                     }
                 </div>
+                <form className="bg-white p-4 rounded-lg shadow-md"
+                    onSubmit={handleSubmit}
+                    >
+                    <h3 className="text-lg font-bold mb-2">Add a comment</h3>
+
+                    <div className="mb-4">
+                        <label 
+                            className="block text-gray-700 font-bold mb-2" 
+                            htmlFor="comment">
+                                Comment
+                        </label>
+                        <textarea
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="comment" 
+                            rows={3} 
+                            placeholder="Enter your comment"
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}>
+                        </textarea>
+                    </div>
+                    <button
+                        className="px-3 h-8 min-w-[42px] text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        type="submit">
+                        Submit
+                    </button>
+                </form>
             </div>
         </div>
     )

@@ -2,6 +2,7 @@ import React from "react";
 import { Comment } from "../../types/Comment";
 import IconLikeFilled from "../icons/IconLikeFilled";
 import IconLikeEmpty from "../icons/IconLikeEmpty";
+import { User } from "../../types/User";
 
 
 const CommentCard: React.FC<{Comment: Comment, ID_User: number, createNewLike: (Comment: number) => void }> = ({Comment, ID_User, createNewLike}) => {
@@ -12,7 +13,7 @@ const CommentCard: React.FC<{Comment: Comment, ID_User: number, createNewLike: (
 
     return (
         <div className="bg-white p-4 rounded-lg shadow-md">
-            <h3 className="text-lg font-bold">{Comment.User ? Comment.User.first_name : 'Unknown'}</h3>
+            <h3 className="text-lg font-bold">{Comment.Users ? (Comment.Users as User).first_name : 'Unknown'}</h3>
             <p className="text-gray-700 text-sm mb-2">
                 Posted on {new Date(Comment.createdAt).toLocaleDateString()}
             </p>

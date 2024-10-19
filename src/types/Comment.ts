@@ -5,8 +5,8 @@ export interface Comment {
     
     ID_Comment: number;
     body: string;
-    User: Partial<User>; 
-    Movie: Partial<Movie>;
+    Users: Partial<User> | number; 
+    Movies: Partial<Movie> | number;
     NumberLikes: number;
     IDUsersLikes: number[];
     createdAt: Date;
