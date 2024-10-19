@@ -70,3 +70,40 @@ export const createLike = async (likeData: Like, token: string): Promise<Success
 
     return success
 }
+
+/**
+ * Function to create a comment.
+ * 
+ * @param {Partial<Comment>} data - An object containing the data to create a comment.
+ * @param {number} data.Movies - The ID of the movie being commented on.
+ * @param {number} data.Users - The ID of the user creating the comment.
+ * @param {string} data.body - The content of the comment.
+ * @param {string} token - The Bearer token used for authorization in the request. 
+ * 
+ * @returns {Promise<SuccessResponseMsg>} A promise that resolves to a 'SuccessResponseMsg' containing information about whether the comment was created.
+ * 
+ * @throws {Error} If the creation or update fails, throws an error with a descriptive message.
+ */
+export const create = async (data: Partial<Comment>, token: string): Promise<SuccessResponseMsg> => {
+
+    const url: string = MOVIE_URL+`/comments`
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+
+    const result: SuccessResponseMsg | ErrorResponse = await response.json()
+
+    if(!response.ok){
+        const errorResponse: ErrorResponse = result as ErrorResponse
+        throw new Error(`Error during the POST request: ${errorResponse.msg}`)
+    }
+
+    const success: SuccessResponseMsg = result as SuccessResponseMsg
+
+    return success
+}
