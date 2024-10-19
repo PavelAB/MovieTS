@@ -9,7 +9,7 @@ const CommentCard: React.FC<{Comment: Comment, ID_User: number, createNewLike: (
 
     
     const alreadyLiked: boolean = Comment.IDUsersLikes.includes(ID_User) 
-    console.log("ID_User", ID_User, alreadyLiked)
+    console.log("ID_User", Comment)
 
     return (
         <div className="bg-white p-4 rounded-lg shadow-md">

@@ -10,7 +10,7 @@ import { Comment, Like } from "../../../types/Comment";
 import CommentCard from "../../../components/Comments/CommentCard";
 import RadarDiagramForRank from "../../../components/Echarts/RadarDiagramForRanks";
 import CreateRank from "../../../components/Echarts/CreateRank";
-import { useCommentByMovie, useNewLike } from "../../../hooks/useComment";
+import { useCommentByMovie, useCreate, useNewLike } from "../../../hooks/useComment";
 import { useUser } from "../../../context/UserContext";
 import { SuccessResponseMsg } from "../../../types/SuccesResponse";
 import { useQueryClient } from "@tanstack/react-query";
@@ -67,7 +67,7 @@ export const InfoRow = <T,>({
 const MovieDetailsPage: React.FC = () => {
 
     const { ID_Movie } = useParams()
-    const { user } = useUser()
+    const { user, showNotification } = useUser()
     const queryClient = useQueryClient()
     const shouldFetch: boolean = ID_Movie ? true : false
 
@@ -76,7 +76,9 @@ const MovieDetailsPage: React.FC = () => {
     // The state isRate is used to optionally display one of two components: true for Average Rate and false for User Rate.
     const [isRate, setIsRate] = useState<boolean>(true)
     const [likeData, setLikeData] = useState<Like>()
-    const [newComment, setNewComment] = useState<string>('') 
+    const [commentData, setCommentData] = useState<Partial<Comment>>()
+    const [newComment, setNewComment] = useState<string>('')
+
 
 
     const { data: movie, isLoading: isLoadingMovie } = useMovieByID(ID_Movie, shouldFetch)
@@ -86,6 +88,8 @@ const MovieDetailsPage: React.FC = () => {
     const { data: comments, isLoading: isLoadingComments} = useCommentByMovie(Number(ID_Movie), user?.token as string, shouldFetchComments)
 
     const { mutate: mutateLike } = useNewLike(likeData!, user?.token!)
+
+    const { mutate: mutateComment } = useCreate(commentData!, user?.token!)
 
     useEffect(() => {
         // Returns the number of elements to display based on the screen size.
@@ -129,13 +133,24 @@ const MovieDetailsPage: React.FC = () => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault()
 
-        const formData: Partial<Comment> = {
+        setCommentData({
             Movies: Number(ID_Movie),
             Users: Number(user?.ID_User!),
             body: newComment
-        }
+        })
 
-        console.log("Comment have been send", formData)
+        mutateComment(
+            undefined,
+            {
+                onSuccess: (data: SuccessResponseMsg): void => {
+                    queryClient.invalidateQueries({queryKey: ['commentByMovie']})
+                    showNotification({message: data.msg})                    
+                },
+                onError: (err: Error): void => {
+                    console.log("Error during create a like", err)
+                }
+            }
+        )
     }
 
     return (
