@@ -14,53 +14,7 @@ import { useCommentByMovie, useCreate, useNewLike } from "../../../hooks/useComm
 import { useUser } from "../../../context/UserContext";
 import { SuccessResponseMsg } from "../../../types/SuccesResponse";
 import { useQueryClient } from "@tanstack/react-query";
-
-
-interface InfoRowProps<T> {
-    title: string,
-    data?: T | T[],
-    renderItem: (item: T) => React.ReactNode,
-    isList?: boolean,
-    visibleElementCount?: number
-
-}
-
-export const InfoRow = <T,>({
-    title,
-    data,
-    renderItem,
-    isList = false,
-    visibleElementCount = 2,
-    }: InfoRowProps<T>) => {
-
-    const hasData = isList ? Array.isArray(data) && data.length > 0 : data !== undefined && data !== null
-
-    return (
-        <div className="px-4 py-6 flex items-center gap-4">
-            <div className="text-sm font-medium leading-6 text-gray-900 whitespace-nowrap">
-                {title}
-            </div>
-            <div className="text-sm leading-6 text-gray-700 flex justify-start gap-1 whitespace-nowrap">
-                { hasData ? (
-                    isList && Array.isArray(data) ? (
-                        <>
-                            {
-                                data.slice(0, visibleElementCount).map((item, index) => {
-                                    return <span key={`${item}-${index}`}>{renderItem(item)}</span>
-                                })
-                            }
-                            {data.length > visibleElementCount && <span>...</span>}
-                        </>
-                    ) : (
-                        <span>{renderItem(data as T)}</span>
-                    )
-                ) : (
-                    <span>No information</span>
-                )}
-            </div>
-        </div>
-    )
-}
+import InfoRow from "../../../components/MovieDetailRow/InfoRow";
 
 
 
