@@ -134,8 +134,8 @@ const MovieDetailsPage: React.FC = () => {
         event.preventDefault()
 
         setCommentData({
-            Movies: Number(ID_Movie),
-            Users: Number(user?.ID_User!),
+            Movie: Number(ID_Movie),
+            User: Number(user?.ID_User!),
             body: newComment
         })
 

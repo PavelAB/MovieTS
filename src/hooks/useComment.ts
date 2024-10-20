@@ -50,8 +50,8 @@ export const useNewLike = (likeData: Like, token: string):UseMutationResult<Succ
  * Custom React hook to handle the creation a comment.
  *
  * @param {Partial<Comment>} commentData - An object containing the data to create a comment.
- * @param {number} data.Movies - The ID of the movie being commented on.
- * @param {number} data.Users - The ID of the user creating the comment.
+ * @param {number} data.Movie - The ID of the movie being commented on.
+ * @param {number} data.User - The ID of the user creating the comment.
  * @param {string} data.body - The content of the comment.
  * @param {string} token - The Bearer token used for authorization in the request.
  * 
