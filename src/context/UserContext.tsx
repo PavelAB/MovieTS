@@ -138,14 +138,11 @@ export const UserProvider: React.FC<UserProviderProps> = ( {children} ) => {
         {children}
         {message &&
           ReactDOM.createPortal(
-            <div
-              className={`fixed top-4 right-4 ${color} text-white p-4 rounded shadow-lg z-50`}
-            >
+            <div className={`fixed top-4 right-4 ${color} text-white p-4 rounded shadow-lg z-50`}>
               <button
                 onClick={() => setMessage(null)}
-                className="absolute p-1 bg-gray-100 border border-gray-300 rounded-full -top-1 -right-1"
-              >
-                <IconX />
+                className="absolute p-1 bg-gray-100 border border-gray-300 rounded-full -top-1 -right-1">
+                    <IconX />
               </button>
               {message}
             </div>,

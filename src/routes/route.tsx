@@ -8,6 +8,7 @@ import AboutPage from "../pages/About/AboutPage";
 import AwardsPage from "../pages/Awards/AwardsPage";
 import PersonnesPage from "../pages/Personnes/PersonnesPage";
 import MovieDetailsPage from "../pages/Movies/pages/MovieDetailsPage";
+import PersonnesDetailsPage from "../pages/Personnes/pages/PersonnesDetailsPage";
 
 export const route: RouteObject[] = [{
     path: '',
@@ -32,6 +33,10 @@ export const route: RouteObject[] = [{
         {
             path: 'stars',
             element: <PersonnesPage />
+        },
+        {
+            path: 'stars/:ID_Personne',
+            element: <PersonnesDetailsPage />
         },
         {
             path: 'awards',
