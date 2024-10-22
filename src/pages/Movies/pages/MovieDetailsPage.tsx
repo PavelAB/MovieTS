@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useMovieByID } from "../../../hooks/useMovie";
 import LoaderElement from "../../../components/LoaderSpin/LoaderElement";
 import { Person } from "../../../types/Person";
@@ -15,6 +15,7 @@ import { useUser } from "../../../context/UserContext";
 import { SuccessResponseMsg } from "../../../types/SuccesResponse";
 import { useQueryClient } from "@tanstack/react-query";
 import InfoRow from "../../../components/MovieDetailRow/InfoRow";
+import IconInfo from "../../../components/icons/IconInfo";
 
 
 
@@ -64,7 +65,7 @@ const MovieDetailsPage: React.FC = () => {
     }
 
     // TODO Create a reusable component that will display a general error for missing data.
-    if (!movie || !comments) {
+    if (!movie) {
         return <h1>No movie</h1>
     }
 
@@ -176,7 +177,8 @@ const MovieDetailsPage: React.FC = () => {
             <div className="min-w-[80%] flex flex-col gap-4 items-center border border-green-600">
                 <button
                     className="px-3 h-8 min-w-[42px] max-w-[300px] text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" 
-                    onClick={()=>setIsRate(!isRate)}>
+                    onClick={()=>setIsRate(!isRate)}
+                    disabled={!user ? true : false}>
                         {isRate ? "Your Rate" : "Average Rate"}
                 </button>
                 {   
@@ -185,52 +187,66 @@ const MovieDetailsPage: React.FC = () => {
                     isRate ? <RadarDiagramForRank rangs={movie.Ratings} idHTMLElement="averageRate" title="Average Rate"/> : <CreateRank />
                 }                
             </div>
-            <div className="p-6 min-w-[80%]">
-                {/* For the proper functioning of the comments section, I want to add 
-                    the ability to like comments and display the number of likes/dislikes. 
-                    I need to rethink the way data is retrieved from the backend. */}
-                <h2 className="text-lg font-bold mb-4">
-                    Comments
-                </h2>
-                <div className="flex flex-col gap-4">
-                    {
-                        comments.data.map((comment: Comment, index: number) =>
-                            <CommentCard 
-                                key={`Comment${index}`} 
-                                Comment={comment} 
-                                ID_User={Number(user?.ID_User)} 
-                                createNewLike={(ID_Comment) => handleNewLike(ID_Comment)} 
-                            />
-                        )
-                    }
-                </div>
-                <form className="bg-white p-4 rounded-lg shadow-md"
-                    onSubmit={handleSubmit}
-                    >
-                    <h3 className="text-lg font-bold mb-2">Add a comment</h3>
-
-                    <div className="mb-4">
-                        <label 
-                            className="block text-gray-700 font-bold mb-2" 
-                            htmlFor="comment">
-                                Comment
-                        </label>
-                        <textarea
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="comment" 
-                            rows={3} 
-                            placeholder="Enter your comment"
-                            value={newComment}
-                            onChange={(e) => setNewComment(e.target.value)}>
-                        </textarea>
+            {   comments && user ?
+                <div className="p-6 min-w-[80%]">
+                    {/* For the proper functioning of the comments section, I want to add 
+                        the ability to like comments and display the number of likes/dislikes. 
+                        I need to rethink the way data is retrieved from the backend. */}
+                    <h2 className="text-lg font-bold mb-4">
+                        Comments
+                    </h2>
+                    <div className="flex flex-col gap-4">
+                        {
+                            comments.data.map((comment: Comment, index: number) =>
+                                <CommentCard 
+                                    key={`Comment${index}`} 
+                                    Comment={comment} 
+                                    ID_User={Number(user?.ID_User)} 
+                                    createNewLike={(ID_Comment) => handleNewLike(ID_Comment)} 
+                                />
+                            )
+                        }
                     </div>
-                    <button
-                        className="px-3 h-8 min-w-[42px] text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        type="submit">
-                        Submit
-                    </button>
-                </form>
-            </div>
+                    <form className="bg-white p-4 rounded-lg shadow-md"
+                        onSubmit={handleSubmit}
+                        >
+                        <h3 className="text-lg font-bold mb-2">Add a comment</h3>
+
+                        <div className="mb-4">
+                            <label 
+                                className="block text-gray-700 font-bold mb-2" 
+                                htmlFor="comment">
+                                    Comment
+                            </label>
+                            <textarea
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="comment" 
+                                rows={3} 
+                                placeholder="Enter your comment"
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}>
+                            </textarea>
+                        </div>
+                        <button
+                            className="px-3 h-8 min-w-[42px] text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                            type="submit">
+                            Submit
+                        </button>
+                    </form>
+                    
+                </div> 
+                :
+                <div className="flex items-center p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                    <IconInfo />
+                    <div className="ms-3 text-sm font-medium text-gray-800 dark:text-gray-300">
+                        Please <NavLink
+                                    to={"/login"}
+                                    className={"font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none"}>
+                                        Sign In
+                                </NavLink>   to the application to view comments.
+                    </div>
+                </div>
+            }
         </div>
     )
 }
