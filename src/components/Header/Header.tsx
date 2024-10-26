@@ -1,5 +1,5 @@
 import React from "react"
-import CustomNavLinks from "../Link/CustomNavLink"
+import CustomNavLinks from "../link/CustomNavLink"
 import { useUser } from "../../context/UserContext"
 
 
@@ -43,6 +43,9 @@ const Header: React.FC = () => {
             <div className="flex justify-between items-center">
                 <div className="mr-10 ml-5">
                     SEARCH BAR
+                    {/* TODO This search will be used to find different entities through an associated 'Tags' system.
+
+                        - Add relationships between various entities in addition to Movie, such as People, Companies, etc. */}
                 </div>
                 {
                     !user ?

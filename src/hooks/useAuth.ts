@@ -1,5 +1,5 @@
 import { useMutation, UseMutationResult} from "@tanstack/react-query"
-import { login, signUp } from "../api/User/ApiUser"
+import { login, signUp } from "../api/user/ApiUser"
 import { User } from "../types/User"
 
 

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import CustomInput from "../../components/Inputs/CustomInput";
+import CustomInput from "../../components/inputs/CustomInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { User } from "../../types/User";
 import { useLogin } from "../../hooks/useAuth";
 import { ErrorValidator } from "../../types/Error";
-import { validateLoginFormData } from "../../Validators/userFormValidators";
+import { validateLoginFormData } from "../../validators/userFormValidators";
 import { colorOfNotificationMessage, ColorTypeForMessage, useUser } from "../../context/UserContext";
 
 
