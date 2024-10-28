@@ -1,7 +1,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { User } from "../types/User";
 import ReactDOM from "react-dom";
-import IconX from "../components/icons/IconX";
+import IconX from "../components/uiElements/icons/IconX";
 
 
 //TODO !!! Actually, I don't like the way the documentation and context were created. I really need to review how to do this more properly.
