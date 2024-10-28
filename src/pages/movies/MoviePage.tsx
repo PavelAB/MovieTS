@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { useMoviesByTitle } from "../../hooks/useMovie"
-import LoaderElement from "../../components/LoaderSpin/LoaderElement"
+import LoaderElement from "../../components/loaderSpin/LoaderElement"
 import { Movie } from "../../types/Movie"
-import MovieCard from "../../components/MovieCard/MovieCard"
-import LimitButton from "../../components/Buttons/LimitButton"
+import MovieCard from "../../components/movieCard/MovieCard"
+import LimitButton from "../../components/buttons/LimitButton"
 import { useNavigate } from "react-router-dom"
 import IconSearch from "../../components/icons/IconSearch"
 

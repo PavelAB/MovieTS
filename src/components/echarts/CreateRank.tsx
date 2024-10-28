@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { colorOfNotificationMessage, ColorTypeForMessage, useUser } from "../../context/UserContext";
 import { useParams } from "react-router-dom";
-import ErrorMessage from "../Error/ErrorMessage";
+import ErrorMessage from "../error/ErrorMessage";
 import { Rating } from "../../types/Rating";
 import RadarDiagramForRank from "./RadarDiagramForRanks";
 import { RangeInput } from "../Inputs/RangeInput";

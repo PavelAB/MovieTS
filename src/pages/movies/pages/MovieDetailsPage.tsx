@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useMovieByID } from "../../../hooks/useMovie";
-import LoaderElement from "../../../components/LoaderSpin/LoaderElement";
+import LoaderElement from "../../../components/loaderSpin/LoaderElement";
 import { Person } from "../../../types/Person";
 import { Genre } from "../../../types/Genre";
 import { Company } from "../../../types/Company";
 import { AwardMovie } from "../../../types/AwardMovie";
 import { Comment, Like } from "../../../types/Comment";
-import CommentCard from "../../../components/Comments/CommentCard";
-import RadarDiagramForRank from "../../../components/Echarts/RadarDiagramForRanks";
-import CreateRank from "../../../components/Echarts/CreateRank";
+import CommentCard from "../../../components/comments/CommentCard";
+import RadarDiagramForRank from "../../../components/echarts/RadarDiagramForRanks";
+import CreateRank from "../../../components/echarts/CreateRank";
 import { useCommentByMovie, useCreate, useNewLike } from "../../../hooks/useComment";
 import { useUser } from "../../../context/UserContext";
 import { SuccessResponseMsg } from "../../../types/SuccesResponse";
 import { useQueryClient } from "@tanstack/react-query";
-import InfoRow from "../../../components/MovieDetailRow/InfoRow";
+import InfoRow from "../../../components/movieDetailRow/InfoRow";
 import IconInfo from "../../../components/icons/IconInfo";
 
 

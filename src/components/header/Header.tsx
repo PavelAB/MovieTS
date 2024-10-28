@@ -1,5 +1,5 @@
 import React from "react"
-import CustomNavLinks from "../Link/CustomNavLink"
+import CustomNavLinks from "../link/CustomNavLink"
 import { useUser } from "../../context/UserContext"
 
 
