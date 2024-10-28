@@ -7,8 +7,8 @@ import SignUpPage from "../pages/auth/signUpPage";
 import AboutPage from "../pages/about/AboutPage";
 import AwardsPage from "../pages/awards/AwardsPage";
 import PersonnesPage from "../pages/personnes/PersonnesPage";
-import MovieDetailsPage from "../pages/movies/pages/MovieDetailsPage";
-import PersonnesDetailsPage from "../pages/personnes/pages/PersonnesDetailsPage";
+import MovieDetailsPage from "../pages/movies/MovieDetailsPage";
+import PersonnesDetailsPage from "../pages/personnes/PersonnesDetailsPage";
 
 export const route: RouteObject[] = [{
     path: '',
