@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
-import { fetchMovieByID, fetchMoviesByTitle } from "../api/Movie/ApiMovie"
+import { fetchMovieByID, fetchMoviesByTitle } from "../api/movie/ApiMovie"
 import { Movie } from "../types/Movie"
 import { SuccessResponse } from "../types/SuccesResponse"
 

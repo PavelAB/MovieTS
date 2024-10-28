@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult, useQuery, UseQueryResult } from "@tanstack/react-query"
 import { Comment, Like } from "../types/Comment"
-import { create, createLike, fetchCommentsByMovie } from "../api/Comment/ApiComment"
+import { create, createLike, fetchCommentsByMovie } from "../api/comment/ApiComment"
 import { SuccessResponse, SuccessResponseMsg } from "../types/SuccesResponse"
 
 /**

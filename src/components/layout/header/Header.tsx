@@ -1,6 +1,6 @@
 import React from "react"
-import CustomNavLinks from "../Link/CustomNavLink"
-import { useUser } from "../../context/UserContext"
+import CustomNavLinks from "../../uiElements/link/CustomNavLink"
+import { useUser } from "../../../context/UserContext"
 
 
 // TODO For small displays, rearrange the list with the links.
