@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult, useQuery, UseQueryResult } from "@tanstack/react-query";
 import { Rating } from "../types/Rating";
-import { createRating, fetchRatingByMovieAndUser } from "../api/Rating/ApiRating";
+import { createRating, fetchRatingByMovieAndUser } from "../api/rating/ApiRating";
 import { SuccessResponseMsg } from "../types/SuccesResponse";
 
 

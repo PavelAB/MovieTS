@@ -3,7 +3,7 @@ import CustomInput from "../../components/Inputs/CustomInput"
 import { NavLink, useNavigate } from "react-router-dom"
 import { User } from "../../types/User"
 import { ErrorValidator } from "../../types/Error"
-import { validateSignUpFormData } from "../../Validators/userFormValidators"
+import { validateSignUpFormData } from "../../validators/userFormValidators"
 import { useSignUp } from "../../hooks/useAuth"
 import { colorOfNotificationMessage, ColorTypeForMessage, useUser } from "../../context/UserContext"
 

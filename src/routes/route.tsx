@@ -1,14 +1,14 @@
 import { RouteObject } from "react-router-dom";
 import App from "../App";
-import HomePage from "../pages/Home/homePage";
-import MoviePage from "../pages/Movies/MoviePage";
-import LoginPage from "../pages/Auth/loginPage";
-import SignUpPage from "../pages/Auth/signUpPage";
-import AboutPage from "../pages/About/AboutPage";
-import AwardsPage from "../pages/Awards/AwardsPage";
-import PersonnesPage from "../pages/Personnes/PersonnesPage";
-import MovieDetailsPage from "../pages/Movies/pages/MovieDetailsPage";
-import PersonnesDetailsPage from "../pages/Personnes/pages/PersonnesDetailsPage";
+import HomePage from "../pages/home/homePage";
+import MoviePage from "../pages/movies/MoviePage";
+import LoginPage from "../pages/auth/loginPage";
+import SignUpPage from "../pages/auth/signUpPage";
+import AboutPage from "../pages/about/AboutPage";
+import AwardsPage from "../pages/awards/AwardsPage";
+import PersonnesPage from "../pages/personnes/PersonnesPage";
+import MovieDetailsPage from "../pages/movies/pages/MovieDetailsPage";
+import PersonnesDetailsPage from "../pages/personnes/pages/PersonnesDetailsPage";
 
 export const route: RouteObject[] = [{
     path: '',
