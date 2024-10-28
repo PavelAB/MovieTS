@@ -1,11 +1,11 @@
 import React, { useState } from "react"
 import { useMoviesByTitle } from "../../hooks/useMovie"
-import LoaderElement from "../../components/loaderSpin/LoaderElement"
+import LoaderElement from "../../components/uiElements/loaderSpin/LoaderElement"
 import { Movie } from "../../types/Movie"
-import MovieCard from "../../components/movieCard/MovieCard"
-import LimitButton from "../../components/buttons/LimitButton"
+import MovieCard from "../../components/movies/movieCard/MovieCard"
+import LimitButton from "../../components/uiElements/buttons/LimitButton"
 import { useNavigate } from "react-router-dom"
-import IconSearch from "../../components/icons/IconSearch"
+import IconSearch from "../../components/uiElements/icons/IconSearch"
 
 // These values are used to define the limit for the number of films fetched per page.
 const itemsPerPageOptions: number[] = [5, 10, 25]

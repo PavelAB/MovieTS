@@ -1,8 +1,8 @@
 import React from "react";
-import { Comment } from "../../types/Comment";
-import IconLikeFilled from "../icons/IconLikeFilled";
-import IconLikeEmpty from "../icons/IconLikeEmpty";
-import { User } from "../../types/User";
+import { Comment } from "../../../types/Comment";
+import IconLikeFilled from "../../uiElements/icons/IconLikeFilled";
+import IconLikeEmpty from "../../uiElements/icons/IconLikeEmpty";
+import { User } from "../../../types/User";
 
 
 const CommentCard: React.FC<{Comment: Comment, ID_User: number, createNewLike: (Comment: number) => void }> = ({Comment, ID_User, createNewLike}) => {

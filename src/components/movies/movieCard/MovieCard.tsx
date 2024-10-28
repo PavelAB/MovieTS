@@ -1,6 +1,6 @@
 import React from "react";
-import { Movie } from "../../types/Movie";
-import { Rating } from "../../types/Rating";
+import { Movie } from "../../../types/Movie";
+import { Rating } from "../../../types/Rating";
 
 const MovieCard: React.FC<{movie: Movie, onDetails: (ID_Movie: number) => void}> = ({movie, onDetails}) => {
 
