@@ -55,15 +55,15 @@ let tempData: Partial<Person>[] = [
     }
 ]
 
-const StarRow : React.FC<{data: Partial<Person>}> = ({data}) => {
+const StarRow: React.FC<{ element: number, minHImage: string, maxWText: string }> = ({ element, minHImage, maxWText }) => {
     return (
-        <div className="flex flex-col gap-2 items-center">
+        <div className={`min-h-[350px] flex flex-col gap-2 items-center justify-center`}>
             <img
-                src={`http://localhost:8080${data.picture! as string}`}
-                className="min-h-[200px] border border-red-500"
+                src={`http://localhost:8080${tempData[element].picture! as string}`}
+                className={`min-h-[${minHImage}] border border-red-500`}
             />
-            <div>
-                {data.first_name} {data.last_name}
+            <div className={`max-w-[${maxWText}] min-h-[50px] overflow-hidden text-center text-ellipsis`}>
+                {tempData[element].ID_Personne}: {tempData[element].first_name} {tempData[element].last_name}
             </div>
         </div>
     )
@@ -74,7 +74,7 @@ const PersonnesPage: React.FC = () => {
 
 
 
-    const [middleElement, setMiddleElement] = useState<number | null>(null)
+    const [middleElement, setMiddleElement] = useState<number | null>(0)
     const [leftFirstElemet, setLeftFirstElemet] = useState<number | null>(null)
     const [leftSecondElemet, setLeftSecondElemet] = useState<number | null>(null)
     const [rightFirstElemet, setRightFirstElemet] = useState<number | null>(null)
@@ -86,26 +86,25 @@ const PersonnesPage: React.FC = () => {
     }, [])
 
     useEffect(()=>{
-        if(tempData.length >= 5){
-            middleElement as number + 1 < tempData.length ? setRightFirstElemet(middleElement! + 1) : setRightFirstElemet(0)
-            middleElement as number - 1 < 0 ? setLeftFirstElemet(tempData.length - 1) : setLeftFirstElemet(middleElement! - 1)
-            middleElement as number - 2 < 0 ? setLeftSecondElemet(tempData.length - 2) : setLeftSecondElemet(middleElement! - 2)  
-            middleElement as number + 2 < tempData.length ? setRightSecondElemet(middleElement! + 2) : setRightSecondElemet(0)
+
+        if(tempData.length >= 5 && middleElement !== null){
+            middleElement + 1 < tempData.length ? setRightFirstElemet(middleElement + 1) : setRightFirstElemet((middleElement + 1) - tempData.length)
+            middleElement - 1 < 0 ? setLeftFirstElemet((middleElement - 1) + tempData.length) : setLeftFirstElemet(middleElement - 1)
+            middleElement - 2 < 0 ? setLeftSecondElemet((middleElement - 2) + tempData.length) : setLeftSecondElemet(middleElement - 2)  
+            middleElement + 2 < tempData.length ? setRightSecondElemet(middleElement + 2) : setRightSecondElemet((middleElement + 2) - tempData.length)
         }
-        else if(tempData.length >= 3){            
-            setLeftFirstElemet(middleElement! - 1)
-            setRightFirstElemet(middleElement! + 1)
+        else if(tempData.length >= 3 && middleElement !== null){            
+            middleElement + 1 < tempData.length ? setRightFirstElemet(middleElement + 1) : setRightFirstElemet((middleElement + 1) - tempData.length)
+            middleElement - 1 < 0 ? setLeftFirstElemet((middleElement - 1) + tempData.length) : setLeftFirstElemet(middleElement - 1)
         }
     }, [middleElement])
 
     const handleRight = (): void => {
-        setMiddleElement((prev) => (prev! + 1) > tempData.length - 1 ? 0 : prev! + 1 ) 
-        
+        setMiddleElement((prev) => (prev! + 1) > tempData.length - 1 ? 0 : prev! + 1 )        
     }
-
-    console.log("middle", middleElement)
-
-    console.log(" --> ", leftSecondElemet, leftFirstElemet, middleElement, rightFirstElemet, rightSecondElemet, tempData[rightSecondElemet!])
+    const handleLeft = (): void => {
+        setMiddleElement((prev) => (prev! - 1) >= 0 ? prev! - 1 : tempData.length - 1)
+    }
 
     return (
         <div className="col-span-12 flex flex-col min-h-screen border border-red-600 justify-start items-center gap-4">
@@ -117,59 +116,16 @@ const PersonnesPage: React.FC = () => {
                 {/* Search bar */}
                 <p>Search bar</p>
             </div>
-            <div className="flex gap-4 items-center">
+            <div className="flex gap-8 min-w-[80%] items-center justify-center">
                 {/* Carousel for stars */}
-                <button >
+                <button onClick={handleLeft}>
                     <IconLeft />
-                </button>                
-                <div className="flex gap-4 items-center">
-                    {/* {tempData && tempData.map((person: Partial<Person>,index: number) => index < 5 && <StarRow key={person.ID_Personne} data={person} />)} */}
-                    {leftSecondElemet !== null && <div className="flex flex-col gap-2 items-center">
-                        <img
-                            src={`http://localhost:8080${tempData[leftSecondElemet].picture! as string}`}
-                            className="min-h-[100px] border border-red-500"
-                        />
-                        <div>
-                            {tempData[leftSecondElemet].ID_Personne} : {tempData[leftSecondElemet].first_name} {tempData[leftSecondElemet].last_name}
-                        </div>
-                    </div>}
-                    {leftFirstElemet !== null && <div className="flex flex-col gap-2 items-center">
-                        <img
-                            src={`http://localhost:8080${tempData[leftFirstElemet].picture! as string}`}
-                            className="min-h-[150px] border border-red-500"
-                        />
-                        <div>
-                            {tempData[leftFirstElemet].ID_Personne} : {tempData[leftFirstElemet].first_name} {tempData[leftFirstElemet].last_name}
-                        </div>
-                    </div>}
-                    {middleElement !== null && <div className="flex flex-col gap-2 items-center">
-                        <img
-                            src={`http://localhost:8080${tempData[middleElement!].picture! as string}`}
-                            className="min-h-[300px] border border-red-500"
-                        />
-                        <div>
-                            {tempData[middleElement!].ID_Personne} : {tempData[middleElement!].first_name} {tempData[middleElement!].last_name}
-                        </div>
-                    </div>}
-                    {rightFirstElemet !== null && <div className="flex flex-col gap-2 items-center">
-                        <img
-                            src={`http://localhost:8080${tempData[rightFirstElemet].picture! as string}`}
-                            className="min-h-[150px] border border-red-500"
-                        />
-                        <div>
-                            {tempData[rightFirstElemet].ID_Personne} : {tempData[rightFirstElemet].first_name} {tempData[rightFirstElemet].last_name}
-                        </div>
-                    </div>}
-                    {rightSecondElemet !== null && <div className="flex flex-col gap-2 items-center">
-                        <img
-                            src={`http://localhost:8080${tempData[rightSecondElemet].picture! as string}`}
-                            className="min-h-[100px] border border-red-500"
-                        />
-                        <div>
-                            {tempData[rightSecondElemet].ID_Personne} : {tempData[rightSecondElemet].first_name} {tempData[rightSecondElemet].last_name}
-                        </div>
-                    </div>}
-                </div>
+                </button>
+                    {leftSecondElemet !== null && <StarRow element={leftSecondElemet} maxWText="100px" minHImage="100px" />}
+                    {leftFirstElemet !== null && <StarRow element={leftFirstElemet} maxWText="150px" minHImage="150px" />}
+                    {middleElement !== null && <StarRow element={middleElement} maxWText="300px" minHImage="300px" />}
+                    {rightFirstElemet !== null && <StarRow element={rightFirstElemet} maxWText="150px" minHImage="150px" />}
+                    {rightSecondElemet !== null && <StarRow element={rightSecondElemet} maxWText="100px" minHImage="100px" />}
                 <button onClick={handleRight}>
                     <IconRight />
                 </button>
