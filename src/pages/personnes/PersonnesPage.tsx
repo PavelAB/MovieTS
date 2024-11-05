@@ -57,12 +57,13 @@ let tempData: Partial<Person>[] = [
 
 const StarRow: React.FC<{ element: number, minHImage: string, maxWText: string }> = ({ element, minHImage, maxWText }) => {
     return (
-        <div className={`min-h-[350px] flex flex-col gap-2 items-center justify-center`}>
+        <div className={`min-h-[350px] flex flex-col gap-2 border border-blue-700 items-center justify-center`}>
             <img
                 src={`http://localhost:8080${tempData[element].picture! as string}`}
-                className={`min-h-[${minHImage}] border border-red-500`}
+                className={`border border-red-600`}
+                style={{ minHeight: minHImage }}
             />
-            <div className={`max-w-[${maxWText}] min-h-[50px] overflow-hidden text-center text-ellipsis`}>
+            <div className={`min-h-[50px] overflow-hidden border border-green-700 text-center text-ellipsis`} style={{ maxWidth: maxWText }}>
                 {tempData[element].ID_Personne}: {tempData[element].first_name} {tempData[element].last_name}
             </div>
         </div>
@@ -121,11 +122,11 @@ const PersonnesPage: React.FC = () => {
                 <button onClick={handleLeft}>
                     <IconLeft />
                 </button>
-                    {leftSecondElemet !== null && <StarRow element={leftSecondElemet} maxWText="100px" minHImage="100px" />}
-                    {leftFirstElemet !== null && <StarRow element={leftFirstElemet} maxWText="150px" minHImage="150px" />}
-                    {middleElement !== null && <StarRow element={middleElement} maxWText="300px" minHImage="300px" />}
-                    {rightFirstElemet !== null && <StarRow element={rightFirstElemet} maxWText="150px" minHImage="150px" />}
-                    {rightSecondElemet !== null && <StarRow element={rightSecondElemet} maxWText="100px" minHImage="100px" />}
+                    {leftSecondElemet !== null && <StarRow key={"1"} element={leftSecondElemet} maxWText="100px" minHImage="100px" />}
+                    {leftFirstElemet !== null && <StarRow key={"2"} element={leftFirstElemet} maxWText="150px" minHImage="150px" />}
+                    {middleElement !== null && <StarRow key={"3"} element={middleElement} maxWText="300px" minHImage="300px" />}
+                    {rightFirstElemet !== null && <StarRow key={"4"} element={rightFirstElemet} maxWText="150px" minHImage="150px" />}
+                    {rightSecondElemet !== null && <StarRow key={"5"} element={rightSecondElemet} maxWText="100px" minHImage="100px" />}
                 <button onClick={handleRight}>
                     <IconRight />
                 </button>
