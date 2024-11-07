@@ -2,109 +2,76 @@ import React, { useEffect, useState } from "react";
 import { Person } from "../../types/Person";
 import IconRight from "../../components/uiElements/icons/IconRight";
 import IconLeft from "../../components/uiElements/icons/IconLeft";
+import { useRandomPersons } from "../../hooks/usePerson";
+import { useUser } from "../../context/UserContext";
+import LoaderElement from "../../components/uiElements/loaderSpin/LoaderElement";
 
-
-let tempData: Partial<Person>[] = [
-    {
-        ID_Personne: 1,
-        first_name: "Leonardo",
-        last_name: "DiCaprio",
-        picture: "/not_implemented"
-    },
-    {
-        ID_Personne: 2,
-        first_name: "Scarlett",
-        last_name: "Johansson",
-        picture: "/not_implemented"
-    },
-    {
-        ID_Personne: 3,
-        first_name: "Morgan",
-        last_name: "Freeman",
-        picture: "/not_implemented"
-    },
-    {
-        ID_Personne: 4,
-        first_name: "Jennifer",
-        last_name: "Lawrence",
-        picture: "/not_implemented"
-    },
-    {
-        ID_Personne: 5,
-        first_name: "Robert",
-        last_name: "Downey Jr.",
-        picture: "/not_implemented"
-    },
-    {
-        ID_Personne: 6,
-        first_name: "Emma",
-        last_name: "Stone",
-        picture: "/not_implemented"
-    },
-    {
-        ID_Personne: 7,
-        first_name: "Tom",
-        last_name: "Hanks",
-        picture: "/not_implemented"
-    },
-    {
-        ID_Personne: 8,
-        first_name: "Natalie",
-        last_name: "Portman",
-        picture: "/not_implemented"
-    }
-]
-
-const StarRow: React.FC<{ element: number, minHImage: string, maxWText: string }> = ({ element, minHImage, maxWText }) => {
-    return (
-        <div className={`min-h-[350px] flex flex-col gap-2 border border-blue-700 items-center justify-center`}>
-            <img
-                src={`http://localhost:8080${tempData[element].picture! as string}`}
-                className={`border border-red-600`}
-                style={{ minHeight: minHImage }}
-            />
-            <div className={`min-h-[50px] overflow-hidden border border-green-700 text-center text-ellipsis`} style={{ maxWidth: maxWText }}>
-                {tempData[element].ID_Personne}: {tempData[element].first_name} {tempData[element].last_name}
-            </div>
-        </div>
-    )
-}
 
 
 const PersonnesPage: React.FC = () => {
 
 
+    const [limit, setLimit] = useState<number>(8)
+    const [job, setJob] = useState<string>("")
+    const [persones, setPersons] = useState<Person[]>([])
+    const { user } = useUser()
+    const shouldFetch: boolean = user?.token ? true : false
 
-    const [middleElement, setMiddleElement] = useState<number | null>(0)
+    const [middleElement, setMiddleElement] = useState<number>(0)
     const [leftFirstElemet, setLeftFirstElemet] = useState<number | null>(null)
     const [leftSecondElemet, setLeftSecondElemet] = useState<number | null>(null)
     const [rightFirstElemet, setRightFirstElemet] = useState<number | null>(null)
     const [rightSecondElemet, setRightSecondElemet] = useState<number | null>(null)
 
+    const {data: randomPersons, isLoading: isLoadingRandomPersons} = useRandomPersons(job, limit, user?.token as string, shouldFetch)
+
 
     useEffect(()=>{        
-        if(!middleElement) setMiddleElement(Math.floor(tempData.length / 2))
+        if(!middleElement) setMiddleElement(Math.floor(persones.length / 2))
     }, [])
 
     useEffect(()=>{
+        if(randomPersons) setPersons(randomPersons?.data)
+    }, [randomPersons])
 
-        if(tempData.length >= 5 && middleElement !== null){
-            middleElement + 1 < tempData.length ? setRightFirstElemet(middleElement + 1) : setRightFirstElemet((middleElement + 1) - tempData.length)
-            middleElement - 1 < 0 ? setLeftFirstElemet((middleElement - 1) + tempData.length) : setLeftFirstElemet(middleElement - 1)
-            middleElement - 2 < 0 ? setLeftSecondElemet((middleElement - 2) + tempData.length) : setLeftSecondElemet(middleElement - 2)  
-            middleElement + 2 < tempData.length ? setRightSecondElemet(middleElement + 2) : setRightSecondElemet((middleElement + 2) - tempData.length)
+    useEffect(()=>{
+
+        if(persones.length >= 5){
+            middleElement + 1 < persones.length ? setRightFirstElemet(middleElement + 1) : setRightFirstElemet((middleElement + 1) - persones.length)
+            middleElement - 1 < 0 ? setLeftFirstElemet((middleElement - 1) + persones.length) : setLeftFirstElemet(middleElement - 1)
+            middleElement - 2 < 0 ? setLeftSecondElemet((middleElement - 2) + persones.length) : setLeftSecondElemet(middleElement - 2)  
+            middleElement + 2 < persones.length ? setRightSecondElemet(middleElement + 2) : setRightSecondElemet((middleElement + 2) - persones.length)
         }
-        else if(tempData.length >= 3 && middleElement !== null){            
-            middleElement + 1 < tempData.length ? setRightFirstElemet(middleElement + 1) : setRightFirstElemet((middleElement + 1) - tempData.length)
-            middleElement - 1 < 0 ? setLeftFirstElemet((middleElement - 1) + tempData.length) : setLeftFirstElemet(middleElement - 1)
+        else if(persones.length >= 3){            
+            middleElement + 1 < persones.length ? setRightFirstElemet(middleElement + 1) : setRightFirstElemet((middleElement + 1) - persones.length)
+            middleElement - 1 < 0 ? setLeftFirstElemet((middleElement - 1) + persones.length) : setLeftFirstElemet(middleElement - 1)
         }
-    }, [middleElement])
+    }, [middleElement, randomPersons])
+
+    if(isLoadingRandomPersons && persones.length < 0) return <LoaderElement />
+
+    console.log("test", persones)
+
+    const StarRow: React.FC<{ element: Partial<Person>, minHImage: string, maxWText: string }> = ({ element, minHImage, maxWText }) => {
+        return (
+            <div className={`min-h-[350px] flex flex-col gap-2 items-center justify-center`} style={{ minWidth: minHImage }}>
+                <img
+                    src={`http://localhost:8080${element.picture! as string}`}
+                    className={`object-contain`}
+                    style={{ minHeight: minHImage, maxHeight: minHImage }}
+                />
+                <div className={`min-h-[50px] overflow-hidden text-center text-ellipsis`} style={{ maxWidth: maxWText }}>
+                    {element.ID_Personne}: {element.first_name} {element.last_name}
+                </div>
+            </div>
+        )
+    }
 
     const handleRight = (): void => {
-        setMiddleElement((prev) => (prev! + 1) > tempData.length - 1 ? 0 : prev! + 1 )        
+        setMiddleElement((prev) => (prev + 1) > persones.length - 1 ? 0 : prev + 1 )        
     }
     const handleLeft = (): void => {
-        setMiddleElement((prev) => (prev! - 1) >= 0 ? prev! - 1 : tempData.length - 1)
+        setMiddleElement((prev) => (prev - 1) >= 0 ? prev - 1 : persones.length - 1)
     }
 
     return (
@@ -117,21 +84,22 @@ const PersonnesPage: React.FC = () => {
                 {/* Search bar */}
                 <p>Search bar</p>
             </div>
-            <div className="flex gap-8 min-w-[80%] items-center justify-center">
+            { persones.length > 0 && 
+                <div className="flex gap-8 min-w-[80%] items-center justify-center">
                 {/* Carousel for stars */}
                 <button onClick={handleLeft}>
                     <IconLeft />
                 </button>
-                    {leftSecondElemet !== null && <StarRow key={"1"} element={leftSecondElemet} maxWText="100px" minHImage="100px" />}
-                    {leftFirstElemet !== null && <StarRow key={"2"} element={leftFirstElemet} maxWText="150px" minHImage="150px" />}
-                    {middleElement !== null && <StarRow key={"3"} element={middleElement} maxWText="300px" minHImage="300px" />}
-                    {rightFirstElemet !== null && <StarRow key={"4"} element={rightFirstElemet} maxWText="150px" minHImage="150px" />}
-                    {rightSecondElemet !== null && <StarRow key={"5"} element={rightSecondElemet} maxWText="100px" minHImage="100px" />}
+                    {leftSecondElemet !== null && <StarRow key={"1"} element={persones[leftSecondElemet]} maxWText="100px" minHImage="100px" />}
+                    {leftFirstElemet !== null && <StarRow key={"2"} element={persones[leftFirstElemet]} maxWText="150px" minHImage="150px" />}
+                    {middleElement !== null && <StarRow key={"3"} element={persones[middleElement]} maxWText="300px" minHImage="300px" />}
+                    {rightFirstElemet !== null && <StarRow key={"4"} element={persones[rightFirstElemet]} maxWText="150px" minHImage="150px" />}
+                    {rightSecondElemet !== null && <StarRow key={"5"} element={persones[rightSecondElemet]} maxWText="100px" minHImage="100px" />}
                 <button onClick={handleRight}>
                     <IconRight />
                 </button>
                 
-            </div>
+            </div>}
             <div>
                 {/* Carouser for films */}
             </div>
