@@ -94,16 +94,16 @@ const PeoplePage: React.FC = () => {
         return newPosition
     }
 
-    const StarRow: React.FC<{ element: Partial<Person>, minHImage: string, maxWText: string }> = ({ element, minHImage, maxWText }) => {
+    const PersonCard: React.FC<{ person: Partial<Person>, cardDimension: string}> = ({ person, cardDimension}) => {
         return (
-            <div className={`min-h-[350px] flex flex-col gap-2 items-center justify-center`} style={{ minWidth: minHImage }}>
+            <div className={`min-h-[350px] flex flex-col gap-2 items-center justify-center`} style={{ minWidth: cardDimension }}>
                 <img
-                    src={`http://localhost:8080${element.picture! as string}`}
+                    src={`http://localhost:8080${person.picture! as string}`}
                     className={`object-contain`}
-                    style={{ minHeight: minHImage, maxHeight: minHImage }}
+                    style={{ height: cardDimension }}
                 />
-                <div className={`min-h-[50px] overflow-hidden text-center text-ellipsis`} style={{ maxWidth: maxWText }}>
-                    {element.ID_Personne}: {element.first_name} {element.last_name}
+                <div className={`min-h-[50px] overflow-hidden text-center text-ellipsis`} style={{ maxWidth: cardDimension }}>
+                    {person.ID_Personne}: {person.first_name} {person.last_name}
                 </div>
             </div>
         )
@@ -121,15 +121,14 @@ const PeoplePage: React.FC = () => {
             </div>
             { carouselPeopleArray.length > 0 && 
                 <div className="flex gap-8 min-w-[80%] items-center justify-center">
-                {/* Carousel for stars */}
                 <button onClick={carouselSwipeLeft}>
                     <IconLeft />
                 </button>
-                    {carouselLeftFarIndex !== null && <StarRow key={"carouselLeftFarElement"} element={carouselPeopleArray[carouselLeftFarIndex]} maxWText="100px" minHImage="100px" />}
-                    {carouselLeftNearIndex !== null && <StarRow key={"carouselLeftNearElement"} element={carouselPeopleArray[carouselLeftNearIndex]} maxWText="150px" minHImage="150px" />}
-                    {carouselCenterIndex !== null && <StarRow key={"carouselCenterElement"} element={carouselPeopleArray[carouselCenterIndex]} maxWText="300px" minHImage="300px" />}
-                    {carouselRightNearIndex !== null && <StarRow key={"carouselRightNearElement"} element={carouselPeopleArray[carouselRightNearIndex]} maxWText="150px" minHImage="150px" />}
-                    {carouselRightFarIndex !== null && <StarRow key={"carouselRightFarElement"} element={carouselPeopleArray[carouselRightFarIndex]} maxWText="100px" minHImage="100px" />}
+                    {carouselLeftFarIndex !== null && <PersonCard key={"carouselLeftFarElement"} person={carouselPeopleArray[carouselLeftFarIndex]} cardDimension="100px" />}
+                    {carouselLeftNearIndex !== null && <PersonCard key={"carouselLeftNearElement"} person={carouselPeopleArray[carouselLeftNearIndex]} cardDimension="150px" />}
+                    {carouselCenterIndex !== null && <PersonCard key={"carouselCenterElement"} person={carouselPeopleArray[carouselCenterIndex]} cardDimension="300px" />}
+                    {carouselRightNearIndex !== null && <PersonCard key={"carouselRightNearElement"} person={carouselPeopleArray[carouselRightNearIndex]} cardDimension="150px" />}
+                    {carouselRightFarIndex !== null && <PersonCard key={"carouselRightFarElement"} person={carouselPeopleArray[carouselRightFarIndex]} cardDimension="100px" />}
                 <button onClick={carouselSwipeRight}>
                     <IconRight />
                 </button>
