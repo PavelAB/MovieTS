@@ -25,18 +25,21 @@ const SEARCHING_JOB_OPTIONS: SearchingJobOptions = {
 const PeoplePage: React.FC = () => {
 
 
+    // Received data
     const { user: connectedUser } = useUser()
-
+    const [carouselPeopleArray, setCarouselPeopleArray] = useState<Person[]>([])
+    
+    // Fetch states
     const [carouselPeopleLimit, setCarouselPeopleLimit] = useState<number>(8)
     const [carouselSearchingJob, setCarouselSearchingJob] = useState<string>(SEARCHING_JOB_OPTIONS.DEFAULT_EMPTY)
-    const [people, setPeople] = useState<Person[]>([])
     const shouldFetch: boolean = connectedUser?.token ? true : false
-
-    const [carouselCenterElement, setCarouselCenterElement] = useState<number>(0)
-    const [carouselLeftNearElement, setCarouselLeftNearElement] = useState<number | null>(null)
-    const [carouselLeftFarElement, setCarouselLeftFarElement] = useState<number | null>(null)
-    const [carouselRightNearElement, setCarouselRightNearElement] = useState<number | null>(null)
-    const [carouselRightFarElement, setCarouselRightFarElement] = useState<number | null>(null)
+    
+    
+    const [carouselCenterIndex, setCarouselCenterIndex] = useState<number>(0)
+    const [carouselLeftNearIndex, setCarouselLeftNearIndex] = useState<number | null>(null)
+    const [carouselLeftFarIndex, setCarouselLeftFarIndex] = useState<number | null>(null)
+    const [carouselRightNearIndex, setCarouselRightNearIndex] = useState<number | null>(null)
+    const [carouselRightFarIndex, setCarouselRightFarIndex] = useState<number | null>(null)
 
 
     const {data: randomPersonResponse, isLoading: isLoadingRandomPersons} = useRandomPersons(
@@ -46,32 +49,50 @@ const PeoplePage: React.FC = () => {
         shouldFetch
     )
 
-
-    useEffect(()=>{        
-        setCarouselCenterElement(Math.floor(people.length / 2))
-    }, [people])
-
     useEffect(()=>{
-        if(randomPersonResponse) setPeople(randomPersonResponse.data)
+        if(randomPersonResponse) setCarouselPeopleArray(randomPersonResponse.data)
     }, [randomPersonResponse])
 
+    useEffect(()=>{        
+        setCarouselCenterIndex(Math.floor(carouselPeopleArray.length / 2))
+    }, [carouselPeopleArray])
+
+
     useEffect(()=>{
+        // If there are at least 3 elements, set the left and right near elements around the center element.
+        if(carouselPeopleArray.length >= 3){
+            setCarouselLeftNearIndex(getPositionRelativeToCenter(-1))
+            setCarouselRightNearIndex(getPositionRelativeToCenter(1))
 
-        if(people.length >= 5){
-            carouselCenterElement + 1 < people.length ? setCarouselRightNearElement(carouselCenterElement + 1) : setCarouselRightNearElement((carouselCenterElement + 1) - people.length)
-            carouselCenterElement - 1 < 0 ? setCarouselLeftNearElement((carouselCenterElement - 1) + people.length) : setCarouselLeftNearElement(carouselCenterElement - 1)
-            carouselCenterElement - 2 < 0 ? setCarouselLeftFarElement((carouselCenterElement - 2) + people.length) : setCarouselLeftFarElement(carouselCenterElement - 2)  
-            carouselCenterElement + 2 < people.length ? setCarouselRightFarElement(carouselCenterElement + 2) : setCarouselRightFarElement((carouselCenterElement + 2) - people.length)
+            // If there are 5 or more elements, also set the left and right far elements
+            // to display a total of 5 elements in the carousel.
+            if(carouselPeopleArray.length >= 5){
+                setCarouselLeftFarIndex(getPositionRelativeToCenter(-2))
+                setCarouselRightFarIndex(getPositionRelativeToCenter(2))
+            }
         }
-        else if(people.length >= 3){            
-            carouselCenterElement + 1 < people.length ? setCarouselRightNearElement(carouselCenterElement + 1) : setCarouselRightNearElement((carouselCenterElement + 1) - people.length)
-            carouselCenterElement - 1 < 0 ? setCarouselLeftNearElement((carouselCenterElement - 1) + people.length) : setCarouselLeftNearElement(carouselCenterElement - 1)
-        }
-    }, [carouselCenterElement])
+    }, [carouselCenterIndex])
 
-    if(isLoadingRandomPersons && people.length < 0) return <LoaderElement />
+    if(isLoadingRandomPersons && carouselPeopleArray.length < 0) return <LoaderElement />
 
-    console.log("test", people)
+    const carouselSwipeRight = (): void => {
+        setCarouselCenterIndex((prev) => (prev + 1) > carouselPeopleArray.length - 1 ? 0 : prev + 1 )        
+    }
+    const carouselSwipeLeft = (): void => {
+        setCarouselCenterIndex((prev) => (prev - 1) >= 0 ? prev - 1 : carouselPeopleArray.length - 1)
+    }
+
+    // This function manages the circular display of an array by calculating a relative position
+    // based on an offset (addend) from the center index in the carousel.
+    function getPositionRelativeToCenter (addend: number): number{
+        const newPosition: number = carouselCenterIndex + addend
+
+        if(newPosition < 0) return newPosition + carouselPeopleArray.length
+        else if(newPosition >= carouselPeopleArray.length) return newPosition - carouselPeopleArray.length
+
+        
+        return newPosition
+    }
 
     const StarRow: React.FC<{ element: Partial<Person>, minHImage: string, maxWText: string }> = ({ element, minHImage, maxWText }) => {
         return (
@@ -88,13 +109,6 @@ const PeoplePage: React.FC = () => {
         )
     }
 
-    const carouselSwipeRight = (): void => {
-        setCarouselCenterElement((prev) => (prev + 1) > people.length - 1 ? 0 : prev + 1 )        
-    }
-    const carouselSwipeLeft = (): void => {
-        setCarouselCenterElement((prev) => (prev - 1) >= 0 ? prev - 1 : people.length - 1)
-    }
-
     return (
         <div className="col-span-12 flex flex-col min-h-screen border border-red-600 justify-start items-center gap-4">
             <div>
@@ -105,17 +119,17 @@ const PeoplePage: React.FC = () => {
                 {/* Search bar */}
                 <p>Search bar</p>
             </div>
-            { people.length > 0 && 
+            { carouselPeopleArray.length > 0 && 
                 <div className="flex gap-8 min-w-[80%] items-center justify-center">
                 {/* Carousel for stars */}
                 <button onClick={carouselSwipeLeft}>
                     <IconLeft />
                 </button>
-                    {carouselLeftFarElement !== null && <StarRow key={"carouselLeftFarElement"} element={people[carouselLeftFarElement]} maxWText="100px" minHImage="100px" />}
-                    {carouselLeftNearElement !== null && <StarRow key={"carouselLeftNearElement"} element={people[carouselLeftNearElement]} maxWText="150px" minHImage="150px" />}
-                    {carouselCenterElement !== null && <StarRow key={"carouselCenterElement"} element={people[carouselCenterElement]} maxWText="300px" minHImage="300px" />}
-                    {carouselRightNearElement !== null && <StarRow key={"carouselRightNearElement"} element={people[carouselRightNearElement]} maxWText="150px" minHImage="150px" />}
-                    {carouselRightFarElement !== null && <StarRow key={"carouselRightFarElement"} element={people[carouselRightFarElement]} maxWText="100px" minHImage="100px" />}
+                    {carouselLeftFarIndex !== null && <StarRow key={"carouselLeftFarElement"} element={carouselPeopleArray[carouselLeftFarIndex]} maxWText="100px" minHImage="100px" />}
+                    {carouselLeftNearIndex !== null && <StarRow key={"carouselLeftNearElement"} element={carouselPeopleArray[carouselLeftNearIndex]} maxWText="150px" minHImage="150px" />}
+                    {carouselCenterIndex !== null && <StarRow key={"carouselCenterElement"} element={carouselPeopleArray[carouselCenterIndex]} maxWText="300px" minHImage="300px" />}
+                    {carouselRightNearIndex !== null && <StarRow key={"carouselRightNearElement"} element={carouselPeopleArray[carouselRightNearIndex]} maxWText="150px" minHImage="150px" />}
+                    {carouselRightFarIndex !== null && <StarRow key={"carouselRightFarElement"} element={carouselPeopleArray[carouselRightFarIndex]} maxWText="100px" minHImage="100px" />}
                 <button onClick={carouselSwipeRight}>
                     <IconRight />
                 </button>
