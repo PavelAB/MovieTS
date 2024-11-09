@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import PeopleCarousel from "../../components/people/carousel/PeopleCarousel";
 
 
 
 
 
-const PeoplePage: React.FC = () => {      
+const PeoplePage: React.FC = () => {    
+    
+    const [carouselCenterPersonId, setCarouselCenterPersonId] = useState<number>()
+
+
+    const handleCenterPersonIdChange = (id: number) => {
+        setCarouselCenterPersonId(id)
+    }
+
+    console.log("CenterID ---> ", carouselCenterPersonId)
 
     return (
         <div className="col-span-12 flex flex-col min-h-screen border border-red-600 justify-start items-center gap-4">
@@ -17,7 +26,7 @@ const PeoplePage: React.FC = () => {
                 {/* Search bar */}
                 <p>Search bar</p>
             </div>
-            <PeopleCarousel />
+            <PeopleCarousel onCenterPersonIdChange={handleCenterPersonIdChange} />
             <div>
                 {/* Carouser for films */}
             </div>

@@ -24,7 +24,7 @@ const SEARCHING_JOB_OPTIONS: SearchingJobOptions = {
 }
 
 
-const PeopleCarousel: React.FC = () => {
+const PeopleCarousel: React.FC<{onCenterPersonIdChange: (id: number) => void}> = ({onCenterPersonIdChange}) => {
 
 
     // Received data
@@ -61,6 +61,8 @@ const PeopleCarousel: React.FC = () => {
 
 
     useEffect(()=>{
+        if(carouselPeopleArray.length > 0 && carouselCenterIndex >= 0)
+            onCenterPersonIdChange(getCenterPersonId())
         // If there are at least 3 elements, set the left and right near elements around the center element.
         if(carouselPeopleArray.length >= 3){
             setCarouselLeftNearIndex(getPositionRelativeToCenter(-1))
@@ -94,6 +96,10 @@ const PeopleCarousel: React.FC = () => {
 
         
         return newPosition
+    }
+
+    function getCenterPersonId():number {
+        return carouselPeopleArray[carouselCenterIndex].ID_Personne
     }
 
 
