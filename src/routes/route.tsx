@@ -6,9 +6,9 @@ import LoginPage from "../pages/auth/loginPage";
 import SignUpPage from "../pages/auth/signUpPage";
 import AboutPage from "../pages/about/AboutPage";
 import AwardsPage from "../pages/awards/AwardsPage";
-import PersonnesPage from "../pages/personnes/PersonnesPage";
+import PeoplePage from "../pages/personnes/PeoplePage";
 import MovieDetailsPage from "../pages/movies/MovieDetailsPage";
-import PersonnesDetailsPage from "../pages/personnes/PersonnesDetailsPage";
+import PersonnesDetailsPage from "../pages/personnes/PersonDetailsPage";
 
 export const route: RouteObject[] = [{
     path: '',
@@ -32,7 +32,7 @@ export const route: RouteObject[] = [{
         },
         {
             path: 'stars',
-            element: <PersonnesPage />
+            element: <PeoplePage />
         },
         {
             path: 'stars/:ID_Personne',
