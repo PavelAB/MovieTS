@@ -57,3 +57,28 @@ export const fetchMovieByID = async (ID_Movie: number): Promise<Movie> => {
     return movie
 }
 
+
+/**
+ * Fetches a list of movies associated with a specific person based on the provided `ID_Person`.
+ * 
+ * @param {number} ID_Person - The ID of the person whose movies are to be fetched.
+ * @returns {SuccessResponse<Movie[]>} - A promise that resolves to a `SuccessResponse` containing an array of movies associated with the specified `ID_Person`.
+ * 
+ * @throws {Error} If the fetch operation fails or the response contains an error.
+ */
+export const fetchMovieByPersonID = async (ID_Person: number): Promise<SuccessResponse<Movie[]>> => {
+
+
+    const url: string = MOVIE_URL+"/movies/person/" + ID_Person
+    const response = await fetch(url)
+
+    const result: SuccessResponse<Movie[]> | ErrorResponse = await response.json()
+
+    if(!response.ok){
+        const errorResponse: ErrorResponse = result as ErrorResponse
+        throw new Error(`Failled to fetch movies by Person ID. Error: ${errorResponse.msg}`) 
+    }
+
+    const successResponse: SuccessResponse<Movie[]> = result as SuccessResponse<Movie[]>
+    return successResponse
+}
