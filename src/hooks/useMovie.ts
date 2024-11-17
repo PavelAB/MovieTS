@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
-import { fetchMovieByID, fetchMoviesByTitle } from "../api/movie/ApiMovie"
+import { fetchMovieByID, fetchMovieByPersonID, fetchMoviesByTitle } from "../api/movie/ApiMovie"
 import { Movie } from "../types/Movie"
 import { SuccessResponse } from "../types/SuccesResponse"
 
@@ -49,6 +49,30 @@ export const useMovieByID = (movieID: string | undefined, shouldFetch: boolean):
     return useQuery<Movie, Error>({
         queryKey: ['movies', ID_Number], 
         queryFn: () => fetchMovieByID(ID_Number),
+        enabled: shouldFetch
+    })
+}
+
+
+
+/**
+ * Custom React hook to fetch a list of movies associated with a specific person based on the provided `ID_Person`.
+ *
+ * @param {number} ID_Person - The ID of the person whose movies are to be fetched.
+ * @param {boolean} [shouldFetch = true] - A boolean indicating whether the movies should be fetched (default is true).
+ * @returns {UseQueryResult<SuccessResponse<Movie[]> , Error>}  An object containing the query status and fetched data.
+ * @throws {Error} If no `ID_Person` is provided or if an error occurs during the fetch operation. 
+ */
+export const useMoviesByPersonID = (ID_Person: number, shouldFetch: boolean = true): UseQueryResult<SuccessResponse<Movie[]>, Error> => {
+    
+    if(!ID_Person){
+        shouldFetch = false
+        throw new Error(`No ID provided to fetch movie`)
+    }    
+    
+    return useQuery<SuccessResponse<Movie[]>, Error>({
+        queryKey: ['moviesByPersonID', ID_Person], 
+        queryFn: () => fetchMovieByPersonID(ID_Person),
         enabled: shouldFetch
     })
 }
