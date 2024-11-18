@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PeopleCarousel from "../../components/people/carousel/PeopleCarousel";
 import MovieCarousel from "../../components/movies/carousel/MovieCarousel";
+import LoaderElement from "../../components/uiElements/loaderSpin/LoaderElement";
 
 
 
@@ -28,7 +29,10 @@ const PeoplePage: React.FC = () => {
                 <p>Search bar</p>
             </div>
             <PeopleCarousel onCenterPersonIdChange={handleCenterPersonIdChange} />
-            <MovieCarousel />
+            { carouselCenterPersonId ?
+                <MovieCarousel ID_Person={carouselCenterPersonId}/> :
+                <LoaderElement />
+            }
         </div>
     )
 }
