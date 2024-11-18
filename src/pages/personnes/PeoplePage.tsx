@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PeopleCarousel from "../../components/people/carousel/PeopleCarousel";
+import MovieCarousel from "../../components/movies/carousel/MovieCarousel";
 
 
 
@@ -27,9 +28,7 @@ const PeoplePage: React.FC = () => {
                 <p>Search bar</p>
             </div>
             <PeopleCarousel onCenterPersonIdChange={handleCenterPersonIdChange} />
-            <div>
-                {/* Carouser for films */}
-            </div>
+            <MovieCarousel />
         </div>
     )
 }
