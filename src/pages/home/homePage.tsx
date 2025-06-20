@@ -7,6 +7,9 @@ const HomePage: React.FC = () => {
             <h1 className="col-span-12 border border-red-600">
                 Home Page: Movie
             </h1>
+            <h2>
+                New SSH
+            </h2>
         </div>
     )
 }
